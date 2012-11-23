@@ -1,4 +1,4 @@
-class Roles < ActiveRecord::Base
+class Role < ActiveRecord::Base
   # attr_accessible :title, :body
   has_many :users
 end

@@ -1,5 +1,5 @@
-class MonthlyBuckets < ActiveRecord::Base
+class User < ActiveRecord::Base
   # attr_accessible :title, :body
   has_many :user_transactions
-  belongs_to :user
+  belongs_to :role
 end
