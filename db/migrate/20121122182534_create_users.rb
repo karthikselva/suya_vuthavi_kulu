@@ -17,12 +17,6 @@ class CreateUsers < ActiveRecord::Migration
       t.column :email_id , :string
       t.column :role_id , :integer , :null => false
 
-      t.column :total_credit , :integer , :null => false
-      t.column :credit_without_interest , :integer , :null => false
-      t.column :interest_for_credit , :integer , :null => false
-      t.column :total_debit , :integer , :null => false
-      t.column :debit_without_interest , :integer , :null => false
-      t.column :interest_for_debit , :integer , :null => false
       t.timestamps
     end
   end
