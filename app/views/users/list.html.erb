@@ -1,0 +1,25 @@
+<H2>User Details</H2>
+<table>
+	<tr>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Email</th>
+		<th>DOB</th>
+		<th>Account Name</th>
+		<th>Group Name</th>
+		<th></th>
+		<th></th>
+	</tr>	
+	<% for user in @users %>
+	  <tr>
+		<td><%= user.first_name %></td>
+		<td><%= user.last_name %></td>
+		<td><%= user.email %></td>
+		<td><%= user.dob %></td>
+		<td><%= user.account.name %></td>
+		<td><%= user.group_name %></td>
+		<td><%= link_to "Edit", edit_user_path(user) %></td>
+		<td><%= link_to "Delete", user_path(user), :confirm => "Are you sure?", :method=>:delete %></td>
+	  </tr>	
+	<% end %>
+</table>	

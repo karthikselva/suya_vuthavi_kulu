@@ -1,0 +1,28 @@
+<%= form_for(:group, :url => save_member_transaction_account_transactions_path, :method => "post") do %>
+<%= hidden_field :group, :id, :value => @group.id %>
+<table>
+    <tr>
+      	<th>Name</th>
+      	<th>Saving</th>
+      	<th>Due</th>
+        <th>Principle Credit</th>
+      	<th>Interest</th>
+        <th>Others</th>
+        <th>Principle Debit</th>
+    </tr>
+    <% i = 0 %>
+    <% for member in @members %>
+    <% i += 1 %>
+    <tr>
+        <td><%=member.full_name %><%= hidden_field :member, :id, :index => i, :value => member.id %></td>
+        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3"%></td>
+        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3"%></td>
+        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3"%></td>
+    </tr>
+    <% end %>
+</table>
+<%= submit_tag "save"%>
+<% end %>

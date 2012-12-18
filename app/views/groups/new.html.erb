@@ -1,0 +1,6 @@
+<h2>New Group</h2>
+<%= form_for(@group, :url => groups_path, :method => "post") do |f| %>
+  <%= render :partial => "form" %>
+  <br/>
+  <%= submit_tag "Save" %>
+<% end %>

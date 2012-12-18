@@ -1,0 +1,30 @@
+<%= stylesheet_link_tag "login-box" %>
+<div id="login-box">
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+	<H1>Sign Up</H1>
+	<div id="login-box-name" style="margin-top:20px;">First Name:</div>
+	<div id="login-box-field" style="margin-top:20px;">
+	  <%= f.text_field :first_name, :class=> "form-login", :size=> "30" %>
+	</div>
+	<div id="login-box-name">Last Name:</div>
+	<div id="login-box-field">
+	  <%= f.text_field :last_name, :class=> "form-login", :size=> "30" %>
+	</div>
+	<div id="login-box-name">Email:</div>
+	<div id="login-box-field">
+	  <%= f.email_field :email, :class=> "form-login", :size=> "30" %>
+	</div>
+	<div id="login-box-name">Password:</div>
+	<div id="login-box-field">
+	  <%= f.password_field :password, :class=> "form-login", :size=> "30" %>
+	</div>
+	<div id="login-box-name">Password Confirmation:</div>
+	<div id="login-box-field">
+	  <%= f.password_field :password_confirmation, :class=> "form-login", :size=> "30" %>
+	</div>
+	<%= f.submit "Sign up" %>
+<% end %>
+<br />
+<br />
+<br />
