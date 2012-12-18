@@ -2,9 +2,9 @@ class Bank < ActiveRecord::Migration
   def up
   	create_table :banks do |t|
       t.column :bank_name , :string
-      t.column :baranch , :integer 
-      t.column :account_name , :integer 
-      t.column :account_number , :integer 
+      t.column :branch , :string 
+      t.column :account_name , :string 
+      t.column :account_number , :string 
       t.timestamps
     end
   end

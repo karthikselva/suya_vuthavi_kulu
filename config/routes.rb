@@ -1,4 +1,42 @@
 SuyaVuthavi::Application.routes.draw do
+
+  # devise_for :users
+  devise_for :users,
+           :controllers  => {
+             :registrations => 'custom_devise/registrations',
+             # :passwords => 'custome_devise/passwords',
+             :sessions => 'custom_devise/sessions'
+             # :omniauth_callbacks => "custome_devise/omniauth_callbacks"
+           } 
+
+  devise_scope :user do
+    get "signout",  :to => "custom_devise/sessions#destroy",  :as => :signout
+    get "signin",   :to => "custom_devise/sessions#new", :as => :signin
+    get "signup",   :to => "custom_devise/registrations#new", :as => :signup
+    get "forgot_password",   :to => "custom_devise/passwords#new", :as => :forgot_password
+    get '/users/auth/:provider' => 'custom_devise/omniauth_callbacks#passthru'
+  end          
+
+  root :to => "home#index"
+
+  resources :users do
+    get :list, :on => :collection
+  end  
+  resources :groups
+  resources :banks
+  resources :account_transactions, :only => "index" do 
+    get :member_transaction, :on => :collection
+    get :group_transaction, :on => :collection
+    get :bank_transaction, :on => :collection
+    get :load_members, :on => :collection
+    get :load_groups, :on => :collection
+    get :load_banks, :on => :collection
+    get :save_member_transaction, :on => :collection
+    get :save_group_transaction, :on => :collection
+    get :save_bank_transaction, :on => :collection
+    get :show_transactions, :on => :collection
+  end  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -54,5 +92,5 @@ SuyaVuthavi::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  match ':controller(/:action(/:id))(.:format)'
 end

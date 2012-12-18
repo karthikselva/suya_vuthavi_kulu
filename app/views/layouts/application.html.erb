@@ -1,14 +1,64 @@
-<!DOCTYPE html>
-<html>
+ <!--
+Design by Bryant Smith
+http://www.bryantsmith.com
+http://www.aszx.net
+email: templates [-at-] bryantsmith [-dot-] com
+Released under Creative Commons Attribution 2.5 Generic.  In other words, do with it what you please; but please leave the link if you'd be so kind :)
+
+Name       : The Slant
+Version    : 1.0
+Released   : 2009-07-25
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>SuyaVuthavi</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>SuyaVuthavi</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
-
-<%= yield %>
-
+    <div id="page">
+		
+        <div id="header">
+        	<h1>&nbsp</h1>
+            <ul>
+                <li><%= link_to "Users", list_users_path%></li>
+           	   	<!--li><%= link_to "Groups", groups_path%></li>
+               	<li><%= link_to "Banks", banks_path%></li-->
+                <li><%= link_to "Member Transaction", member_transaction_account_transactions_path %></li>
+                <li><%= link_to "Group Transaction", group_transaction_account_transactions_path %></li>
+                <li><%= link_to "Bank Transaction", bank_transaction_account_transactions_path %></li>
+                <li><%= link_to "Logout", signout_path%></li>
+            </ul>
+        </div>
+  
+        <div id="main">
+        
+        	<!--div class="main_top">
+            	<h1></h1>
+            </div-->
+            
+           	<div class="main_body">
+                <%= yield %>
+            </div>
+            
+           	<div class="main_bottom"></div>
+            
+        </div>
+        
+        
+        
+        <div id="footer">
+        <p>
+        <a href="http://www.aszx.net">web development</a> by <a href="http://www.bryantsmith.com">bryant smith</a>
+        </p>
+        </div>
+        
+        </div>
 </body>
 </html>
