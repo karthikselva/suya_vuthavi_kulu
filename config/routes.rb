@@ -37,6 +37,11 @@ SuyaVuthavi::Application.routes.draw do
     get :show_transactions, :on => :collection
   end  
 
+  resources :reports, :only => "index" do 
+    get :loan_details, :on => :collection
+    get :load_loan_details, :on => :collection
+  end 
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

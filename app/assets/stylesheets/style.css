@@ -33,7 +33,7 @@ p {text-align: left;}
 {
 display:block;
 float:left;
-line-height:70px;
+line-height:35px;
 margin-left:17px;
 width:230px;
 color:#FFFFFF;
@@ -59,17 +59,17 @@ float:left;
 	float:left;
 	margin: 0px;
 	text-align:center;
-	line-height:72px;
+	line-height:30px;
 	width:133px;
 	color:#FFFFFF;
 
-	font-size:16px;
+	font-size:12px;
 	font-weight:bold;
 	text-decoration:none;
 }
 
 #header ul li a:hover{
-color:#CCCCCC;
+color: #00FFFF;
 }
 
 
@@ -151,7 +151,7 @@ background-repeat:no-repeat;
 background-image:url(header.png);
 background-repeat:no-repeat;
 width:921px;
-height:72px;
+height:35px;
 }
 
 
@@ -159,11 +159,11 @@ height:72px;
 #footer {
 display:block;
 width: 921px;
-height:74px;
+height:35px;
 background: url(footer.png) no-repeat;
 text-align:right;
 font-size:9px;
-line-height:75px;
+line-height:35px;
 }
 
 #footer p{
@@ -180,14 +180,14 @@ text-decoration:none;
 color:#CCCCCC;
 }
 
-table {
+#table_style table {
 	border:1px solid #000;
 	border-collapse:collapse;
 	font-family:arial,sans-serif;
 	font-size:80%;
 }
 
-td,th{
+#table_style td,#table_style th{
 	border:1px solid #000;
 	border-collapse:collapse;
 	padding:5px;
@@ -205,24 +205,37 @@ caption{
 	text-align:left;
 }
 
-thead th{
+#table_style thead th{
 	background:#9cf;
 	text-align:left;
 }
-tbody th{
+#table_style tbody th{
 	text-align:left;
 	background:#69c;
 }
 
-tfoot td{
+#table_style tfoot td{
 	text-align:right;
 	font-weight:bold;
 	background:#369;
 }
-tbody td{
+#table_style tbody td{
 	background:#999;	
 }
-tbody tr.odd td{
+#table_style tbody tr.odd td{
 	background:#ccc;
 }
+
+
+.popupMenu {
+  font-family     : Verdana,Tahoma,Helvetica,sans-serif;
+  font-size       :     10px;
+  color           :  #111111;
+  position        : absolute;
+  top             :     35px;
+  border          :      1px;
+  padding         :      3px;
+  z-index         :       16;
+  background-color:   #295785;
+  cursor          :  pointer; }
 

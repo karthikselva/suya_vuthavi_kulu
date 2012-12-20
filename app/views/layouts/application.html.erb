@@ -21,18 +21,59 @@ Released   : 2009-07-25
   <%= csrf_meta_tags %>
 </head>
 
-<body>
+
     <div id="page">
 		
         <div id="header">
         	<h1>&nbsp</h1>
             <ul>
-                <li><%= link_to "Users", list_users_path%></li>
-           	   	<!--li><%= link_to "Groups", groups_path%></li>
-               	<li><%= link_to "Banks", banks_path%></li-->
-                <li><%= link_to "Member Transaction", member_transaction_account_transactions_path %></li>
-                <li><%= link_to "Group Transaction", group_transaction_account_transactions_path %></li>
-                <li><%= link_to "Bank Transaction", bank_transaction_account_transactions_path %></li>
+                <li>
+                   <ul>
+                      <li><a onmouseover="showMenu(1)" onmouseout="startTimer()" style="cursor:pointer">Admin</a></li>
+                      <li>
+                        <div class="popupMenu" id="menu_1" style="display: none;">
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                              <tr id="opt_d"><td><%= link_to "Users", list_users_path%></td></tr>
+                              <tr id="opt_e"><td><%= link_to "Groups", groups_path%></td></tr>
+                              <tr id="opt_f"><td><%= link_to "Banks", banks_path%></td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </li>
+                   </ul>   
+                 </li>
+                 <li>
+                   <ul>
+                      <li><a onmouseover="showMenu(2)" onmouseout="startTimer()" style="cursor:pointer">Transactions</a></li>
+                      <li>
+                        <div class="popupMenu" id="menu_2" style="display: none;">
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                              <tr id="opt_d"><td><%= link_to "Member Transaction", member_transaction_account_transactions_path %></td></tr>
+                              <tr id="opt_e"><td><%= link_to "Group Transaction", group_transaction_account_transactions_path %></td></tr>
+                              <tr id="opt_f"><td><%= link_to "Bank Transaction", bank_transaction_account_transactions_path %></td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </li>
+                   </ul>
+                 </li>
+                <li>
+                  <ul>
+                      <li><a onmouseover="showMenu(3)" onmouseout="startTimer()" style="cursor:pointer">Reports</a></li>
+                      <li>
+                        <div class="popupMenu" id="menu_3" style="display: none;">
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                              <tr id="opt_d"><td><%= link_to "Loan Details", loan_details_reports_path%></td></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </li>
+                   </ul>
+                </li>
+                <li>&nbsp;</li>
                 <li><%= link_to "Logout", signout_path%></li>
             </ul>
         </div>
@@ -62,3 +103,38 @@ Released   : 2009-07-25
         </div>
 </body>
 </html>
+
+<SCRIPT LANGUAGE="JavaScript">
+var  timerId=0 ;
+
+function clearTimer() {
+  if (timerId!=0) {
+    clearTimeout(timerId); timerId=0; }}
+
+function startTimer() {
+  clearTimer(); timerId=setTimeout('timerId=0;hideMenus()',2000); }
+
+function showMenu(menuNum) {
+  clearTimer(); hideMenus();
+  document.getElementById('menu_'+menuNum).style.display=""; }
+
+function hideMenus() {
+  var  i=1 ;
+  while (document.getElementById('menu_'+i)) {
+    document     .getElementById('menu_'+i).style.display="none";
+    i++; }}
+
+function hiLite(theOption) {
+  clearTimer();
+  document.getElementById('opt_'+theOption).style.background='#9090FF'; }
+
+function unLite(theOption) {
+  startTimer();
+  document.getElementById('opt_'+theOption).style.background='#D0D0FF'; }
+
+function optClick(theOption) {
+  unLite(theOption); clearTimer(); hideMenus();
+  alert('You clicked option '+theOption.toUpperCase()+'.  '+
+  'This code should actually do something in response to that.'); }
+
+</SCRIPT>

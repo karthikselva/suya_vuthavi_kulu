@@ -1,6 +1,6 @@
 <H2>Transactions</H2>
 <% if @atd_credit %>
-	<table>
+	<table id="table_style">
 		<tr>
 			<th>From A/C(<%= @atd_credit.from_account.accountable.class.to_s %>) </th>
 			<th>To A/C(<%= @atd_credit.to_account.accountable.class.to_s %>) </th>
@@ -22,7 +22,7 @@
 	</table>	
 <% end %>
 <% if @atd_debit %>
-	<table>
+	<table id="table_style">
 		<tr>
 			<th>From A/C(<%= @atd_debit.from_account.accountable.class.to_s %>) </th>
 			<th>To A/C(<%= @atd_debit.to_account.accountable.class.to_s %>) </th>

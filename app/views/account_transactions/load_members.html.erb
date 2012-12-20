@@ -1,6 +1,6 @@
 <%= form_for(:group, :url => save_member_transaction_account_transactions_path, :method => "post") do %>
 <%= hidden_field :group, :id, :value => @group.id %>
-<table>
+<table id="table_style">
     <tr>
       	<th>Name</th>
       	<th>Saving</th>
