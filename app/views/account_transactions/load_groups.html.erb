@@ -1,0 +1,20 @@
+<%= form_for(:group, :url => save_group_transaction_account_transactions_path, :method => "post") do %>
+<%= hidden_field :group, :id, :value => params[:group_id] %>
+<table id="table_style">
+    <tr>
+      	<th>Name</th>
+        <th>Principle Credit</th>
+      	<th>Interest</th>
+        <th>Others</th>
+        <th>Principle Debit</th>
+    </tr>
+    <tr>
+        <td><%= collection_select :selected,:group_id, @groups, :id, :name, {:prompt => "Select"} %></td>
+        <td><%= text_field :account_tran_detail,:principle_credit,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:interest_credit,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:other_amount,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:principle_debit,:size=>"3"%></td>
+    </tr>
+</table>
+<%= submit_tag "save"%>
+<% end %>

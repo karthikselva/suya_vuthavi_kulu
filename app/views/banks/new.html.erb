@@ -1,0 +1,6 @@
+<h2>New Bank</h2>
+<%= form_for(@bank, :url => banks_path, :method => "post") do |f| %>
+  <%= render :partial => "form" %>
+  <br/>
+  <%= submit_tag "Save" %>
+<% end %>

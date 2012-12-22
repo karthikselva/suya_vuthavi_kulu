@@ -1,0 +1,22 @@
+<H2>Bank Details</H2>
+<%= link_to "New Bank", new_bank_path %>	
+<table id="table_style">
+	<tr>
+		<th>Bank Name</th>
+		<th>Branch</th>
+		<th>Account Name</th>
+		<th>Account #</th>
+		<th></th>
+		<th></th>
+	</tr>	
+	<% for bank in @banks %>
+	  <tr>
+		<td><%= bank.bank_name %></td>
+		<td><%= bank.branch %></td>
+		<td><%= bank.account_name %></td>
+		<td><%= bank.account_number %></td>
+		<td><%= link_to "Edit", edit_bank_path(bank) %></td>
+		<td><%= link_to "Delete", bank_path(bank), :confirm => "Are you sure?", :method=>:delete %></td>
+	  </tr>	
+	<% end %>
+</table>	

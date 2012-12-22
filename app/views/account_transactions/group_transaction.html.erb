@@ -1,0 +1,26 @@
+Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_groups(this)"} %>
+
+<div id="result"></div>	
+
+<script>
+  function load_groups(ele)
+  {
+  	group_id = ele.value
+  	if(group_id != "")
+  	{
+  		$.ajax
+    ({
+		  url: '<%= load_groups_account_transactions_path %>',
+		  data: { "group_id": group_id },
+		  success: function(data) 
+      {
+		    $('#result').html(data);
+		  }
+		});
+  	}
+  	else
+  	{
+  		$('#result').html("")
+  	}  
+  }
+</script>

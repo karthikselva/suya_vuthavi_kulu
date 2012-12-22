@@ -1,0 +1,9 @@
+First Name : <%= text_field :user, :first_name, :size => "30" %>
+<br/>
+Last Name : <%= text_field :user, :last_name, :size => "30" %>
+<br/>
+Email : <%= text_field :user, :email, :size => "30" %>
+<br/>
+DOB : <%= text_field :user, :dob, :size => "30" %>
+<br/>
+Group : <%= collection_select :selected, :group_id, @groups,:id, :name, {:prompt => "Select"} %>

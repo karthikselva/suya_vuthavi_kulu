@@ -1,34 +1,29 @@
 class User < ActiveRecord::Base
-  attr_accessible :username
-  has_one :account , :as => :accountable
-  belongs_to :group
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
 
-  # Accessor: Get list of all transactions
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :dob
+  # attr_accessible :title, :body
+  belongs_to :role
+  has_one :account, :as => :accountable
+  has_one :groups_user
 
-  def transactions
-    account_obj = self.account
-    if account_obj.present?
-      return account_obj.account_transactions
-    else
-      return nil
-    end
+  after_save :create_account
+  
+  def create_account
+    Account.make_account(self)
   end
 
-  # Use this function for user paying a due_amt 
-  # @params: 
-  #   * due_amt : Monthly amount mandatory to be paid to group 
-  #   * principal_amt : If money is borrowed previously pay the principal in parts 
-  #   * interest : Additional Interest for the principal_amt
+  def full_name
+    first_name + " " + last_name
+  end  
 
-  def pay_due(due_amt,principal_amt=0,interest=0)
-    if due_amt > 0
-      AccountTransaction.create(:from_account_id => self.account.id ,
-          :to_account_id => self.group_id ,
-          :principle_credit_amount => principal_amt ,
-          :principle_interest_amount => interest)
-    else 
-      raise "Due amount should be greater than one "
-    end
-end
+  def group_name
+    groups_user ? groups_user.group.name : ""
+  end  
 
 end

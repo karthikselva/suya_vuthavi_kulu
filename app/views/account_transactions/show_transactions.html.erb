@@ -1,0 +1,39 @@
+<H2>Transactions</H2>
+<% if @atd_credit %>
+	<table id="table_style">
+		<tr>
+			<th>From A/C(<%= @atd_credit.from_account.accountable.class.to_s %>) </th>
+			<th>To A/C(<%= @atd_credit.to_account.accountable.class.to_s %>) </th>
+			<th>Saving</th>
+			<th>Due</th>
+			<th>Principle Credit</th>
+			<th>Interest</th>
+			<th>Others</th>
+		</tr>	
+	    <tr>
+		  <td><%= @atd_credit.from_account.name %></td>
+		  <td><%= @atd_credit.to_account.name %></td>
+		  <td><%= @atd_credit.saving %></td>
+		  <td><%= @atd_credit.due %></td>
+		  <td><%= @atd_credit.principle_credit %></td>
+		  <td><%= @atd_credit.interest_credit %></td>
+		  <td><%= @atd_credit.other_amount %></td>
+	    </tr>	
+	</table>	
+<% end %>
+<% if @atd_debit %>
+	<table id="table_style">
+		<tr>
+			<th>From A/C(<%= @atd_debit.from_account.accountable.class.to_s %>) </th>
+			<th>To A/C(<%= @atd_debit.to_account.accountable.class.to_s %>) </th>
+			<th>Principle Debit</th>
+			<th>Others</th>
+		</tr>
+	    <tr>
+		  <td><%= @atd_debit.from_account.name %></td>
+		  <td><%= @atd_debit.to_account.name %></td>
+		  <td><%= @atd_debit.principle_debit %></td>
+		  <td><%= @atd_debit.other_amount %></td>
+	    </tr>	
+	</table>	
+<% end %>

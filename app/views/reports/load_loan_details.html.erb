@@ -1,0 +1,20 @@
+<table id="table_style">
+    <tr>
+        <th>S.No</th>
+      	<th>Name</th>
+      	<th>Loan Amount</th>
+      	<th>Interest</th>
+        <th>Total</th>
+    </tr>
+    <% i = 0 %>
+    <% for member in @members %>
+    <% i += 1 %>
+    <tr>
+        <td><%= i %></td>
+        <td><%=member.full_name %></td>
+        <td><%= bal = member.account.outstanding_balance %></td>
+        <td><%= intr = get_interest(member.account.outstanding_balance) %></td>
+        <td><%= bal + intr %></td>
+    </tr>
+    <% end %>
+</table>

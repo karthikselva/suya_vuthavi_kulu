@@ -1,0 +1,241 @@
+/* A Free Design by Bryant Smith (bryantsmith.com) */
+
+html, body {
+text-align: center;
+}
+p {text-align: left;}
+
+body {
+	margin: 0;
+	padding: 0;
+	background: #C1C1C1;
+	background-image:url(background.png)
+	text-align: left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #F1F5F8;
+}
+*
+{
+  margin: 0 auto 0 auto;
+ text-align:left;}
+
+
+html, body {
+text-align: center;
+}
+p {text-align: left;}
+
+
+
+
+#header h1
+{
+display:block;
+float:left;
+line-height:35px;
+margin-left:17px;
+width:230px;
+color:#FFFFFF;
+text-align:left;
+font-size:23px;
+font-weight:bold;
+font-family:Arial, Helvetica, sans-serif;
+float:left;
+
+}
+
+
+#header ul {
+	padding: 0px;
+	list-style-type: none;
+	height:21px;
+	text-align:center;
+	height:85px;
+	overflow:hidden;
+}
+#header ul li , #header ul li a, #header ul li a:visited{
+	display:block;
+	float:left;
+	margin: 0px;
+	text-align:center;
+	line-height:30px;
+	width:133px;
+	color:#FFFFFF;
+
+	font-size:12px;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+#header ul li a:hover{
+color: #00FFFF;
+}
+
+
+
+#main 
+{
+margin-top:10px;
+margin-bottom:10px;
+}
+
+
+#main .main_top
+{
+height:85px;
+width:921px;
+background-image:url(main_top.png);
+background-repeat:no-repeat;
+}
+
+#main .main_body
+{
+
+padding-left:0px;
+height:420px;
+width:921px;
+background-image:url(main_body.png);
+background-repeat:repeat-y;
+color:#000000;
+padding-bottom:20px;
+
+
+}
+
+
+#main .main_top h1
+{
+font-size:24px;
+line-height:85px;
+color:#000000;
+padding-left:25px;
+background-image:url(header_h1_bg.png);
+background-position:right;
+background-repeat:no-repeat;
+margin-right:25px;
+}
+
+#main .main_body p
+{
+line-height:19px;
+letter-spacing:1px;
+padding-bottom:15px;
+padding-left:20px;
+padding-right:20px;
+}
+
+
+#main .main_bottom
+{
+height:8px;
+width:921px;
+background-image:url(main_bottom.png);
+background-repeat:no-repeat;
+}
+
+
+#page
+{
+  margin: 0 auto 0 auto; 
+  margin-top:25px;
+  display: block; 
+  height:auto;
+  position: relative; 
+  overflow: hidden; 
+  width: 921px;
+}
+
+#header
+{
+background-image:url(header.png);
+background-repeat:no-repeat;
+width:921px;
+height:35px;
+}
+
+
+
+#footer {
+display:block;
+width: 921px;
+height:35px;
+background: url(footer.png) no-repeat;
+text-align:right;
+font-size:9px;
+line-height:35px;
+}
+
+#footer p{
+padding-right:20px;
+text-align:right;
+}
+
+#footer, #footer a, #footer a:visited{
+color:#FFFFFF;
+}
+
+#footer a:hover{
+text-decoration:none;
+color:#CCCCCC;
+}
+
+#table_style table {
+	border:1px solid #000;
+	border-collapse:collapse;
+	font-family:arial,sans-serif;
+	font-size:80%;
+}
+
+#table_style td,#table_style th{
+	border:1px solid #000;
+	border-collapse:collapse;
+	padding:5px;
+}	
+
+#fn,#dp,#ar{width:58px;}
+#fr,#to{width:138px;}
+
+caption{
+	background:#ccc;
+	font-size:140%;
+	border:1px solid #000;
+	border-bottom:none;
+	padding:5px;
+	text-align:left;
+}
+
+#table_style thead th{
+	background:#9cf;
+	text-align:left;
+}
+#table_style tbody th{
+	text-align:left;
+	background:#69c;
+}
+
+#table_style tfoot td{
+	text-align:right;
+	font-weight:bold;
+	background:#369;
+}
+#table_style tbody td{
+	background:#999;	
+}
+#table_style tbody tr.odd td{
+	background:#ccc;
+}
+
+
+.popupMenu {
+  font-family     : Verdana,Tahoma,Helvetica,sans-serif;
+  font-size       :     10px;
+  color           :  #111111;
+  position        : absolute;
+  top             :     35px;
+  border          :      1px;
+  padding         :      3px;
+  z-index         :       16;
+  background-color:   #295785;
+  cursor          :  pointer; }
+
