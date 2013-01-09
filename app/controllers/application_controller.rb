@@ -9,4 +9,9 @@ class ApplicationController < ActionController::Base
   def determine_layout
   	"application"
   end	
+
+  def after_sign_in_path_for(resource)
+    root_url
+  end  
+
 end

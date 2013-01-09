@@ -1,25 +1,3 @@
-<!--
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-	<table align='left'>
-		<tr>
-		  <td left-margincolspan='2'><h2>Sign in</h2></td>
-		</tr>	
-		<tr>
-			<td>Email </td>
-			<td>: <%= f.email_field :email %></td>
-		</tr>	
-		<tr>
-			<td>Password </td>
-			<td>: <%= f.password_field :password %></td>
-		</tr>
-		<tr>
-		  <td align='center' colspan='2'><%= f.submit "Sign in" %></td>
-		</tr>
-	</table>	
-	<%= render "devise/shared/links" %>
-<% end %>
--->
-
 <%= render :partial => "/home/login_form"%>
 
 

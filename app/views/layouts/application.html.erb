@@ -67,6 +67,8 @@ Released   : 2009-07-25
                           <table border="0" cellpadding="0" cellspacing="0">
                             <tbody>
                               <tr id="opt_d"><td><%= link_to "Loan Details", loan_details_reports_path%></td></tr>
+                              <tr id="opt_d"><td><%= link_to "Monthly Details", monthly_loan_details_reports_path%></td></tr>
+                              <tr id="opt_d"><td><%= link_to "Grand Details", grand_details_reports_path%></td></tr>
                             </tbody>
                           </table>
                         </div>
@@ -74,7 +76,11 @@ Released   : 2009-07-25
                    </ul>
                 </li>
                 <li>&nbsp;</li>
-                <li><%= link_to "Logout", signout_path%></li>
+                <% unless user_signed_in? -%>
+                   <li><%= link_to "Sign in", signin_path %></li>
+                <% else -%>
+                   <li><%= link_to "Sign out", signout_path %></li>
+                <% end -%>
             </ul>
         </div>
   
@@ -92,14 +98,12 @@ Released   : 2009-07-25
             
         </div>
         
-        
-        
+              
         <div id="footer">
         <p>
-        <a href="http://www.aszx.net">web development</a> by <a href="http://www.bryantsmith.com">bryant smith</a>
+        Web Development by <a href="http://www.mangudi.info">Govind and Rami</a>
         </p>
-        </div>
-        
+        </div>     
         </div>
 </body>
 </html>

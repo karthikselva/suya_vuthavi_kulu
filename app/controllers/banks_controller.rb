@@ -1,7 +1,5 @@
-class BanksController < ActionController::Base
+class BanksController < ApplicationController
  
-  layout "application"
-
   def index
   	@banks = Bank.order("bank_name")
   end  
