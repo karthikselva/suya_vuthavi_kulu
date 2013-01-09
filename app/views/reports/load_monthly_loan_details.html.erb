@@ -1,0 +1,41 @@
+<table id="table_style">
+    <tr>
+        <th rowspan='2'>S.No</th>
+      	<th rowspan='2'>Name</th>
+      	<th rowspan='2'>Savings</th>
+      	<th rowspan='2'>Due</th>
+        <th colspan='2'>Credit</th>
+        <th rowspan='2'>Others</th>
+        <th rowspan='2'>Total</th>
+    </tr>
+    <tr>
+        <th>Principle </th>
+        <th>Interest</th>
+    </tr>  
+    <% i = 0 %>
+    <% total_hash = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0, "total" => 0} %>
+    <% for member in @members %>
+    <% i += 1 %>
+    <tr>
+        <td><%= i %></td>
+        <td><%=member.full_name %></td>
+            <% details = member.monthly_decision_book(params[:transaction_date].to_date) %>
+        <td><%= details["saving"] %><% total_hash["saving"] += details["saving"] %></td>
+        <td><%= details["due"] %><% total_hash["due"] += details["due"] %></td>
+        <td><%= details["principle_credit"] %><% total_hash["principle_credit"] += details["principle_credit"] %></td>
+        <td><%= details["interest_credit"] %><% total_hash["interest_credit"] += details["interest_credit"] %></td>
+        <td><%= details["other_amount"] %><% total_hash["other_amount"] += details["other_amount"] %></td>
+            <% total = details["saving"] + details["due"] + details["other_amount"] + details["principle_credit"] + details["interest_credit"] %>
+        <td><%= total %><% total_hash["total"] += total %></td>
+    </tr>
+    <% end %>
+    <tr>
+        <td colspan='2' align='center'>Grand Total</td>
+        <td><%=  total_hash["saving"] %></td>
+        <td><%=  total_hash["due"] %></td>
+        <td><%= total_hash["principle_credit"] %></td>
+        <td><%= total_hash["interest_credit"] %></td>
+        <td><%=  total_hash["other_amount"] %></td>
+        <td><%=  total_hash["total"] %></td>
+    </tr>    
+</table>

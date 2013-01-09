@@ -1,6 +1,4 @@
-class UsersController < ActionController::Base
-
-  layout "application"
+class UsersController < ApplicationController
 
   def index
   end  
