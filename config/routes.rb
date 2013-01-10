@@ -1,10 +1,11 @@
 SuyaVuthavi::Application.routes.draw do
 
+
   # devise_for :users
   devise_for :users,
            :controllers  => {
              :registrations => 'custom_devise/registrations',
-             # :passwords => 'custome_devise/passwords',
+             # :passwords => 'custom_devise/passwords',
              :sessions => 'custom_devise/sessions'
              # :omniauth_callbacks => "custome_devise/omniauth_callbacks"
            } 
@@ -40,6 +41,10 @@ SuyaVuthavi::Application.routes.draw do
   resources :reports, :only => "index" do 
     get :loan_details, :on => :collection
     get :load_loan_details, :on => :collection
+    get :monthly_loan_details, :on => :collection
+    get :load_monthly_loan_details, :on => :collection
+    get :grand_details, :on => :collection
+    get :load_grand_details, :on => :collection
   end 
 
   # The priority is based upon order of creation:

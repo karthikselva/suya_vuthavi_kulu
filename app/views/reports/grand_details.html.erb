@@ -1,0 +1,28 @@
+<p>Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_grand_details(this)"} %> </p>
+
+<p>Month : <%= text_field :user, :transaction_date, :size => "10" %></p>
+
+<div id="result"></div>	
+
+<script>
+  function load_grand_details(ele)
+  {
+  	group_id = ele.value
+  	if(group_id != "")
+  	{
+  		$.ajax
+    ({
+		  url: '<%= load_grand_details_reports_path %>',
+		  data: { "group_id": group_id, "transaction_date": $("#user_transaction_date").val() },
+		  success: function(data) 
+      {
+		    $('#result').html(data);
+		  }
+		});
+  	}
+  	else
+  	{
+  		$('#result').html("")
+  	}  
+  }
+</script>

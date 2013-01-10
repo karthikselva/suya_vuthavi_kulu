@@ -1,6 +1,4 @@
-class GroupsController < ActionController::Base
-
-  layout "application"
+class GroupsController < ApplicationController
 
   def index
   	@groups = Group.order("name")

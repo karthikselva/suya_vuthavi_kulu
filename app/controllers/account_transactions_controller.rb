@@ -1,7 +1,5 @@
-class AccountTransactionsController < ActionController::Base
+class AccountTransactionsController < ApplicationController
 
-	layout "application"
-  
   def show_transactions
     flash[:notice] = "Successfully Saved"
     
