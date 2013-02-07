@@ -1,28 +1,85 @@
 <%= form_for(:group, :url => save_member_transaction_account_transactions_path, :method => "post") do %>
 <%= hidden_field :group, :id, :value => @group.id %>
+<%= hidden_field_tag :transaction_date, params[:date].to_date %>
+
 <table id="table_style">
     <tr>
       	<th>Name</th>
       	<th>Saving</th>
       	<th>Due</th>
-        <th>Principle Credit</th>
+        <th>Principal Credit</th>
       	<th>Interest</th>
         <th>Others</th>
-        <th>Principle Debit</th>
+        <th>Principal Debit</th>
+        <th>Total</th>
     </tr>
     <% i = 0 %>
     <% for member in @members %>
     <% i += 1 %>
     <tr>
+        <% bal_saving = member.get_balance_saving(params[:date].to_date) %>
+        <% bal_due = member.get_balance_due(params[:date].to_date) %>
+        <% outs_bal = member.account.outstanding_balance %>
+        <% bal_interest = member.get_balance_interest(params[:date].to_date) %>
+
         <td><%=member.full_name %><%= hidden_field :member, :id, :index => i, :value => member.id %></td>
-        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3"%></td>
-        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3"%></td>
-        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3"%></td>
-        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3"%></td>
-        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3"%></td>
-        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3"%></td>
+        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :title => "Bal :" + bal_saving.to_s %></td>
+        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :title => "Bal :" + bal_due.to_s%></td>
+        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'principle_credit')", :title => "Bal :" + outs_bal.to_s%></td>
+        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'interest_credit')", :title => "Bal :" + bal_interest.to_s%></td>
+        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
+        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
+        <td><%= text_field :reference,:total, :index => i,:size=>"3", :value => 0, :readonly => true%></td>
+            <%= hidden_field :hidden, :saving, :index => i, :value => bal_saving %>
+            <%= hidden_field :hidden, :due, :index => i, :value => bal_due %> 
+            <%= hidden_field :hidden, :principle_credit, :index => i, :value => outs_bal %>
+            <%= hidden_field :hidden, :interest_credit, :index => i, :value => bal_interest %> 
     </tr>
     <% end %>
+    <tr>
+        <td colspan='7' style="text-align:right"><b>Grand Total</b></td>
+        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0 %></td>
+    </tr>
 </table>
-<%= submit_tag "save"%>
+<br/>
+<div style='text-align:center'><%= submit_tag "save"%></div>
 <% end %>
+
+<script>
+  function check_values(index, column)
+  {
+    entered_value = $("#account_tran_detail_" + index + "_" + column).val()
+    entered_value = entered_value == "" ? 0 : entered_value
+    bal_saving = $("#hidden_" + index + "_" + column).val()
+    if(parseFloat(entered_value) > parseFloat(bal_saving)){
+      alert("Invalid amount")  
+      $("#account_tran_detail_" + index + "_" + column).val("")
+    }
+    find_total(index)
+  }
+
+  function find_total(index)
+  {
+    arr = ["saving","due", "principle_credit", "interest_credit", "other_amount", "principle_debit"]
+    total = 0
+    for(i=0;i<arr.length;i++)
+    {
+      entered_value = $("#account_tran_detail_" + index + "_" + arr[i]).val()
+      entered_value = entered_value == "" ? 0 : entered_value
+      total = (arr[i] == "principle_debit") ? (total - parseFloat(entered_value)) : (total + parseFloat(entered_value))
+    }    
+    $("#reference_" + index + "_total").val(total)
+    grand_total()
+  }
+
+  var COUNT = '<%= @members.length %>'
+  function grand_total()
+  {
+    grnd_total = 0
+    for(i=1;i<=parseInt(COUNT);i++)
+    {
+      grnd_total = grnd_total + parseFloat($("#reference_" + i + "_total").val()) 
+    }
+    $("#reference_grand_total").val(grnd_total) 
+  }
+</script>

@@ -1,6 +1,6 @@
 <p>Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_monthly_loan_details(this)"} %> </p>
 
-<p>Month : <%= text_field :user, :transaction_date, :size => "10" %></p>
+<p>Month : <%= text_field :user, :transaction_date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %></p>
 
 <div id="result"></div>	
 

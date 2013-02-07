@@ -1,34 +1,71 @@
+<% total_hash = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0, "total" => 0} %>
+<% debit_details = {} %>
+<% for member in @members %>
 
-<table id="table_style">
-    
-      	        
-    <% i = 0 %>
-    <% total_hash = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0, "total" => 0} %>
-    <% for member in @members %>
-    <% i += 1 %>
-    <!--tr>
-        <td><%= i %></td>
-        <td><%=member.full_name %></td>
-            <% details = member.monthly_decision_book(params[:transaction_date].to_date) %>
-        <td><%= details["saving"] %><% total_hash["saving"] += details["saving"] %></td>
-        <td><%= details["due"] %><% total_hash["due"] += details["due"] %></td>
-        <td><%= details["principle_credit"] %><% total_hash["principle_credit"] += details["principle_credit"] %></td>
-        <td><%= details["interest_credit"] %><% total_hash["interest_credit"] += details["interest_credit"] %></td>
-        <td><%= details["other_amount"] %><% total_hash["other_amount"] += details["other_amount"] %></td>
-            <% total = details["saving"] + details["due"] + details["other_amount"] + details["principle_credit"] + details["interest_credit"] %>
-        <td><%= total %><% total_hash["total"] += total %></td>
-    </tr-->
+  <% details = member.monthly_decision_book(params[:transaction_date].to_date) %>
+  <% total_hash["saving"] += details["saving"] %>
+  <% total_hash["due"] += details["due"] %>
+  <% total_hash["principle_credit"] += details["principle_credit"] %>
+  <% total_hash["interest_credit"] += details["interest_credit"] %>
+  <% total_hash["other_amount"] += details["other_amount"] %>
+  <% total = details["saving"] + details["due"] + details["other_amount"] + details["principle_credit"] + details["interest_credit"] %>
+  <% total_hash["total"] += total %>
+
+  <% debit_details.merge!({member.full_name => member.monthly_decision_book_debit(params[:transaction_date].to_date)}) %>
+  <% debit_details.delete_if{|k,v| v["principle_debit"] == 0 } %>
+
+<% end %>
+<table>
+<tr>
+<td valign='top'>  
+<table id="table_style"> 
+    <tr>
+      <th rowspan='2'>Date</th>  
+      <th rowspan='2'>Credit Details</th>
+      <th colspan='2'>Cash</th>
+      <th colspan='2'>Bank</th>
+    </tr> 
+    <tr>
+      <th>Rs</th>  
+      <th>paise</th>
+      <th>Rs</th>  
+      <th>paise</th>
+    </tr>
+    <tr><td>&nbsp;</td><td>Opening Balance</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Savings</td><td><%= total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Due</td><td><%= total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Interest Collect</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Others</td><td><%=  total_hash["other_amount"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_hash["total"] %></td><td>00</td><td>0</td><td>00</td></tr>
+</table>
+</td>
+<td valign='top'>
+<table id="table_style"> 
+    <tr>
+      <th rowspan='2'>Date</th>  
+      <th rowspan='2'>Debit Details</th>
+      <th colspan='2'>Cash</th>
+      <th colspan='2'>Bank</th>
+    </tr> 
+    <tr>
+      <th>Rs</th>  
+      <th>paise</th>
+      <th>Rs</th>  
+      <th>paise</th>
+    </tr>
+
+    <tr><td>&nbsp;</td><td>Loan Issued</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <% for debit_detail in debit_details.to_a %>
+      <tr><td>&nbsp;</td><td><%= debit_detail[0] %></td><td><%= debit_detail[1]["principle_debit"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <% end %>
-
-
-
-        <tr><th>Opening Balance</th><td>0.00</td></tr>
-        <tr><th>Savings</th><td><%=  total_hash["saving"] %></td></tr>
-        <tr><th>Due</th><td><%=  total_hash["due"] %></td></tr>
-        <tr><th>Principle Collect</th><td><%= total_hash["principle_credit"] %></td></tr>
-        <tr><th>Interest Collect</th><td><%= total_hash["interest_credit"] %></td></tr>
-        <tr><th>Others</th><td><%=  total_hash["other_amount"] %></td></tr>
-        <tr><th>Total</th><td><%=  total_hash["total"] %></td></tr>
-  
-        
+    <tr><td>&nbsp;</td><td>Savings</td><td><%=  total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Due</td><td><%=  total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Interest Collect</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Others</td><td><%=  total_hash["other_amount"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_hash["total"] %></td><td>00</td><td>0</td><td>00</td></tr>
+</table>
+</td>
+</tr>
 </table>

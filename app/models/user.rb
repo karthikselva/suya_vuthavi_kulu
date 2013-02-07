@@ -39,16 +39,33 @@ class User < ActiveRecord::Base
   end 
 
   def monthly_decision_book(tran_date)
-    atds = AccountTranDetail.where(["from_account_id = ? and to_account_id = ? and transaction_date = ? and (saving != 0 or due != 0 or other_amount != 0 or principle_credit != 0 or interest_credit != 0)",self.account.id, self.get_group.account.id, tran_date])
-    ac = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0}
-    return atds.inject(ac){|acc,val|
-      acc["saving"] = acc["saving"].to_f + val.saving.to_f
-      acc["due"] = acc["due"].to_f + val.due.to_f
-      acc["principle_credit"] = acc["principle_credit"].to_f + val.principle_credit.to_f
-      acc["interest_credit"] = acc["interest_credit"].to_f + val.interest_credit.to_f
-      acc["other_amount"] = acc["other_amount"].to_f + val.other_amount.to_f
-      acc
-    }
+    self.account.monthly_decision_book(tran_date, self.get_group.account.id)
+  end
+
+  def monthly_decision_book_debit(tran_date)
+    self.account.monthly_decision_book_debit(tran_date, self.get_group.account.id)
+  end
+
+  def last_month_outstanding_Principal(date)
+    self.account.last_month_outstanding_Principal(date, self.get_group.account.id)
+  end  
+
+  def get_current_month_interest(date)
+    pa = last_month_outstanding_Principal(date)
+    get_interest(pa)
+  end
+
+  def get_balance_interest(date)
+    intr = get_current_month_interest(date)
+    intr - monthly_decision_book(date)["interest_credit"].to_f
+  end
+
+  def get_balance_saving(date)
+    self.get_group.saving_amount - monthly_decision_book(date)["saving"]
+  end   
+  
+  def get_balance_due(date)
+    self.get_group.due_amount - monthly_decision_book(date)["due"]
   end
 
 end

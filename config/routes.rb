@@ -36,11 +36,14 @@ SuyaVuthavi::Application.routes.draw do
     get :save_group_transaction, :on => :collection
     get :save_bank_transaction, :on => :collection
     get :show_transactions, :on => :collection
+    get :load_group_balances, :on => :collection
   end  
 
   resources :reports, :only => "index" do 
     get :loan_details, :on => :collection
     get :load_loan_details, :on => :collection
+    get :group_loan_details, :on => :collection
+    get :group_load_loan_details, :on => :collection
     get :monthly_loan_details, :on => :collection
     get :load_monthly_loan_details, :on => :collection
     get :grand_details, :on => :collection
