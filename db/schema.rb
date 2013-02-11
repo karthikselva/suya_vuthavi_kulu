@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205181324) do
+ActiveRecord::Schema.define(:version => 20130124102308) do
 
   create_table "account_tran_details", :force => true do |t|
     t.integer  "from_account_id",                                                 :null => false
@@ -47,10 +47,23 @@ ActiveRecord::Schema.define(:version => 20121205181324) do
     t.datetime "updated_at",     :null => false
   end
 
+  create_table "group_trans_tracks", :force => true do |t|
+    t.integer  "account_tran_detail_id"
+    t.integer  "from_account_id",                                                      :null => false
+    t.integer  "to_account_id",                                                        :null => false
+    t.date     "transaction_date"
+    t.decimal  "from_to_outs_balance",   :precision => 10, :scale => 0, :default => 0
+    t.decimal  "to_from_outs_balance",   :precision => 10, :scale => 0, :default => 0
+    t.datetime "created_at",                                                           :null => false
+    t.datetime "updated_at",                                                           :null => false
+  end
+
   create_table "groups", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                                  :null => false
+    t.datetime "updated_at",                                                  :null => false
+    t.decimal  "saving_amount", :precision => 10, :scale => 0, :default => 0
+    t.decimal  "due_amount",    :precision => 10, :scale => 0, :default => 0
   end
 
   create_table "groups_users", :force => true do |t|

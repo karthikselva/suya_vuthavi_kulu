@@ -1,20 +1,31 @@
-<p>Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_grand_details(this)"} %> </p>
-
-<p>Month : <%= text_field :user, :transaction_date, :size => "10" %></p>
+<h3 style='text-align:center'>Monthly Details </h3>
+<br/>
+<table>
+  <tr>
+    <th>   
+      Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"} %>
+    </th>
+    <th>
+       Date : <%= text_field :user, :transaction_date, :size => "8", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
+    </th>
+    <th><%= button_tag "submit", :onclick => "load_grand_details()"%></th>
+  </tr>
+</table>
+<br/>
 
 <div id="result"></div>	
 
 <script>
-  function load_grand_details(ele)
+  function load_grand_details()
   {
-  	group_id = ele.value
+  	group_id = $("#select_group").val()
   	if(group_id != "")
   	{
   		$.ajax
     ({
 		  url: '<%= load_grand_details_reports_path %>',
 		  data: { "group_id": group_id, "transaction_date": $("#user_transaction_date").val() },
-		  success: function(data) 
+		  success: function(data)
       {
 		    $('#result').html(data);
 		  }
@@ -25,4 +36,5 @@
   		$('#result').html("")
   	}  
   }
+
 </script>

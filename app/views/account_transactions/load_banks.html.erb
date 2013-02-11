@@ -1,5 +1,6 @@
 <%= form_for(:group, :url => save_bank_transaction_account_transactions_path, :method => "post") do %>
 <%= hidden_field :group, :id, :value => params[:group_id] %>
+<%= hidden_field_tag :transaction_date, params[:date].to_date %>
 <table id="table_style">
     <tr>
       	<th>Name</th>
@@ -14,5 +15,6 @@
         <td><%= text_field :account_tran_detail,:other_amount,:size=>"3"%></td>
     </tr>
 </table>
-<%= submit_tag "save"%>
+</br>
+<div style='text-align:center'><%= submit_tag "save"%></div>
 <% end %>

@@ -1,17 +1,25 @@
-Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_banks(this)"} %>
-
+<h3 style='text-align:center'>Bank Transaction </h3>
+<br/>
+<table>
+  <tr>
+    <th>Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"} %></th>
+    <th>Date : <%= text_field :select, :date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y") %></th>
+    <th><%= button_tag "submit", :onclick => "load_banks()"%></th>
+  </tr>
+</table>
+<br/>
 <div id="result"></div>	
 
 <script>
   function load_banks(ele)
   {
-  	group_id = ele.value
+  	group_id = $("#select_group").val()
   	if(group_id != "")
   	{
   		$.ajax
     ({
 		  url: '<%= load_banks_account_transactions_path %>',
-		  data: { "group_id": group_id },
+		  data: { "group_id": group_id, "date": $("#select_date").val() },
 		  success: function(data) 
       {
 		    $('#result').html(data);
