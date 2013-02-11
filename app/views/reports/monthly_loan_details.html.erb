@@ -1,13 +1,24 @@
-<p>Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"}, {:onchange => "load_monthly_loan_details(this)"} %> </p>
-
-<p>Month : <%= text_field :user, :transaction_date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %></p>
+<h3 style='text-align:center'>Monthly Details </h3>
+<br/>
+<table>
+  <tr>
+    <th>   
+      Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"} %>
+    </th>
+    <th>
+       Date : <%= text_field :user, :transaction_date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
+    </th>
+    <th><%= button_tag "submit", :onclick => "load_monthly_loan_details()"%></th>
+  </tr>
+</table>
+<br/>
 
 <div id="result"></div>	
 
 <script>
-  function load_monthly_loan_details(ele)
+  function load_monthly_loan_details()
   {
-  	group_id = ele.value
+  	group_id = $("#select_group").val()
   	if(group_id != "")
   	{
   		$.ajax
