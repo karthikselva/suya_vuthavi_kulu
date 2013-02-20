@@ -15,7 +15,7 @@
         <td><%= i %></td>
         <td><%=member.full_name %></td>
         <td><%= bal = member.account.outstanding_balance %></td>
-        <td><%= intr = get_interest(member.account.outstanding_balance) %></td>
+        <td><%= intr = member.get_balance_interest(params["date"].to_date) %></td>
         <td><%= bal + intr %></td>
     </tr>
     <% end %>
@@ -39,7 +39,7 @@
         <td><%= i %></td>
         <td><%= group.name %></td>
         <td><%= bal = result["principle_credit"] %></td>
-        <td><%= intr = result["interest_credit"] %></td>
+        <td><%= intr = group.get_balance_interest(@group, params["date"].to_date) %></td>
         <td><%= bal + intr %></td>
     </tr>
     <% end %>

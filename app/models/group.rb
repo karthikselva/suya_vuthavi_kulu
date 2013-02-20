@@ -17,7 +17,7 @@ class Group < ActiveRecord::Base
 
   def create_account
   	Account.make_account(self)
-  end	
+  end
 
   def monthly_decision_book(tran_date, to_account_id)
     self.account.monthly_decision_book(tran_date, to_account_id)
@@ -52,7 +52,47 @@ class Group < ActiveRecord::Base
 
   def get_balance_interest(base_group, date)
     intr = get_current_month_interest(base_group, date)
-    intr - base_group.monthly_decision_book(date, self.account.id)["interest_credit"].to_f
+    intr - self.monthly_decision_book(date, base_group.account.id)["interest_credit"].to_f
+  end
+
+  def get_expenses(tran_date)
+    from_date = tran_date.to_date.beginning_of_month
+    to_date = tran_date.to_date.end_of_month
+    AccountTranDetail.where(["from_account_id = ? and to_account_id = ? and transaction_date >= ? and transaction_date <= ?", self.account.id, EXPENSES_ACC_ID, from_date, to_date])
+  end  
+
+  def update_final_balance(date)
+    total_hash = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0, "total" => 0} 
+    debit_details = {} 
+    for member in self.users
+      details = member.monthly_decision_book(date.to_date) 
+      total_hash["saving"] += details["saving"] 
+      total_hash["due"] += details["due"] 
+      total_hash["principle_credit"] += details["principle_credit"] 
+      total_hash["interest_credit"] += details["interest_credit"] 
+      total_hash["other_amount"] += details["other_amount"] 
+      total = details["saving"] + details["due"] + details["other_amount"] + details["principle_credit"] + details["interest_credit"] 
+      total_hash["total"] += total 
+      debit_details.merge!({member.full_name => member.monthly_decision_book_debit(date.to_date)}) 
+      debit_details.delete_if{|k,v| v["principle_debit"] == 0 } 
+    end 
+
+    tot = 0
+    for debit_detail in debit_details.to_a
+      tot += debit_detail[1]["principle_debit"]
+    end
+
+    for expense in self.get_expenses(date)
+      tot += expense.other_amount
+    end
+
+    self.final_balance = self.final_balance.to_f + (total_hash["total"] - tot)
+    self.save
+  end
+
+  # cron job scheduled to update_final_balance
+  def self.update_final_balance(date)
+    Group.all.each{|group| group.update_final_balance(date) }
   end
 
 end

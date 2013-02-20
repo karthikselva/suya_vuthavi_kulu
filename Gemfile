@@ -30,6 +30,10 @@ group :development do
   gem "taps"
 end
 
+gem 'rufus-scheduler'
+
+# gem 'whenever', :require => false
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -44,3 +48,5 @@ end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+
+

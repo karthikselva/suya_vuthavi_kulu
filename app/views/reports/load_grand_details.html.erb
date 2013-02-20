@@ -22,8 +22,8 @@
     <tr>
       <th rowspan='2'>Date</th>  
       <th rowspan='2'>Credit Details</th>
-      <th colspan='2'>Cash</th>
-      <th colspan='2'>Bank</th>
+      <th colspan='2' style='text-align:center'>Cash</th>
+      <th colspan='2' style='text-align:center'>Bank</th>
     </tr> 
     <tr>
       <th>Rs</th>  
@@ -31,7 +31,7 @@
       <th>Rs</th>  
       <th>paise</th>
     </tr>
-    <tr><td>&nbsp;</td><td>Opening Balance</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Opening Balance</b></td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Savings</td><td><%= total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Due</td><td><%= total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
@@ -45,8 +45,8 @@
     <tr>
       <th rowspan='2'>Date</th>  
       <th rowspan='2'>Debit Details</th>
-      <th colspan='2'>Cash</th>
-      <th colspan='2'>Bank</th>
+      <th colspan='2' style='text-align:center'>Cash</th>
+      <th colspan='2' style='text-align:center'>Bank</th>
     </tr> 
     <tr>
       <th>Rs</th>  
@@ -55,16 +55,22 @@
       <th>paise</th>
     </tr>
 
-    <tr><td>&nbsp;</td><td>Loan Issued</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <% tot = 0 %>
+    <tr><td>&nbsp;</td><td><b>Loan Issued</b></td><td></td><td></td><td></td><td></td></tr>
     <% for debit_detail in debit_details.to_a %>
+      <% tot += debit_detail[1]["principle_debit"] %>
       <tr><td>&nbsp;</td><td><%= debit_detail[0] %></td><td><%= debit_detail[1]["principle_debit"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <% end %>
-    <tr><td>&nbsp;</td><td>Savings</td><td><%=  total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Due</td><td><%=  total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Interest Collect</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Others</td><td><%=  total_hash["other_amount"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_hash["total"] %></td><td>00</td><td>0</td><td>00</td></tr>
+
+    <tr><td>&nbsp;</td><td><b>Expenses</b></td><td></td><td></td><td></td><td></td></tr>
+    <% for expense in @group.get_expenses(params[:transaction_date]) %>
+      <% tot += expense.other_amount %>
+      <tr><td>&nbsp;</td><td><%= expense.comments %></td><td><%= expense.other_amount %></td><td>00</td><td>0</td><td>00</td></tr>
+    <% end %>
+
+    <tr><td>&nbsp;</td><td></td><td><%= 0 %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td></td><td><%=  00 %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  tot %></td><td>00</td><td>0</td><td>00</td></tr>
 </table>
 </td>
 </tr>

@@ -112,6 +112,20 @@ class AccountTransactionsController < ApplicationController
         render :json => result.to_json,:layout => false
       } 
     end
-  end  
+  end
+
+  def expenses
+    @groups = Group.order("name")
+  end 
+
+  def save_expenses
+    group = Group.find(params[:selected][:group_id])
+    amount_hash = {:other_amount => params[:account_tran_detail][:other_amount].to_f}
+    if amount_hash.values.any?{|v| v > 0 }
+      @atd_credit = AccountTranDetail.new(:comments => params[:account_tran_detail][:comments])
+      @atd_credit.save_tranction(group.account.id, EXPENSES_ACC_ID, params[:account_tran_detail][:transaction_date].to_date, amount_hash)
+    end
+    redirect_to show_transactions_account_transactions_path(:atd_credit_id => @atd_credit ? @atd_credit.id : "", :atd_debit_id => "")
+  end 
     
 end	

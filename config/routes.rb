@@ -37,6 +37,8 @@ SuyaVuthavi::Application.routes.draw do
     get :save_bank_transaction, :on => :collection
     get :show_transactions, :on => :collection
     get :load_group_balances, :on => :collection
+    get :expenses, :on => :collection
+    get :save_expenses, :on => :collection
   end  
 
   resources :reports, :only => "index" do 

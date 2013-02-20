@@ -1,5 +1,5 @@
 class AccountTranDetail < ActiveRecord::Base
-  attr_accessible :from_account_id, :to_account_id, :saving, :due, :principle_credit, :interest_credit, :principle_debit, :other_amount, :from_outs_balance, :to_outs_balance, :transaction_date
+  attr_accessible :comments, :from_account_id, :to_account_id, :saving, :due, :principle_credit, :interest_credit, :principle_debit, :other_amount, :from_outs_balance, :to_outs_balance, :transaction_date
 
   belongs_to :user
   belongs_to :from_account, :class_name => "Account", :foreign_key => "from_account_id"

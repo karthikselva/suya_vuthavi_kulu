@@ -23,8 +23,8 @@ test:
 
 production:
   adapter: mysql2
-  database: d2nc8c457plof5
-  username: inizigaatordsn
-  password: Show
-  host: ec2-54-243-250-125.compute-1.amazonaws.com
-  port: 5432
+  database: svk_prod
+  username: root
+  password: tarento
+  host: localhost
+

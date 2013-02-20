@@ -58,5 +58,3 @@ module SuyaVuthavi
     config.assets.version = '1.0'
   end
 end
-
-Int_Percentage = 1
