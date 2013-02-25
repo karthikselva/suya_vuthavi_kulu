@@ -7,3 +7,8 @@ scheduler = Rufus::Scheduler.start_new
 scheduler.cron("0 0 1 * *") do
   Group.update_final_balance(Date.today - 1)
 end
+
+scheduler.cron("0 0 1 * *") do
+  Bank.update_bank_final_balance(Date.today - 1)
+end
+
