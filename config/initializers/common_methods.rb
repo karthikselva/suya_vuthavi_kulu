@@ -1,5 +1,5 @@
-
-EXPENSES_ACC_ID = Account.find_by_name("Expences").id
+a = Account.find_by_name("Expences")
+EXPENSES_ACC_ID = a ? a.id : nil
 Int_Percentage = 1
 
 def get_interest(amount, percentage=Int_Percentage)
