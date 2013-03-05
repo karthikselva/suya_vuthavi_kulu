@@ -5,6 +5,7 @@ class Group < ActiveRecord::Base
   has_one :account, :as => :accountable
   has_many :groups_users
   has_many :users, :through => :groups_users
+  has_many :monthly_buckets
 
   after_save :create_account
 
@@ -61,7 +62,20 @@ class Group < ActiveRecord::Base
     AccountTranDetail.where(["from_account_id = ? and to_account_id = ? and transaction_date >= ? and transaction_date <= ?", self.account.id, EXPENSES_ACC_ID, from_date, to_date])
   end  
 
+  def final_balance(date)
+    mb = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, (date.to_date.beginning_of_month - 1).beginning_of_month, (date.to_date.beginning_of_month - 1).end_of_month]).first
+    opening_balance = mb ? mb.final_balance : 0
+  end 
+
+  def bank_final_balance(date)
+    mb = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, (date.to_date.beginning_of_month - 1).beginning_of_month, (date.to_date.beginning_of_month - 1).end_of_month]).first
+    opening_balance = mb ? mb.bank_final_balance : 0
+  end  
+
   def update_final_balance(date)
+    mb = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, (date.to_date.beginning_of_month - 1).beginning_of_month, (date.to_date.beginning_of_month - 1).end_of_month]).first
+    opening_balance = mb ? mb.final_balance : 0
+
     total_hash = {"saving" => 0, "due" => 0, "principle_credit" => 0, "interest_credit" => 0, "other_amount" => 0, "total" => 0} 
     debit_details = {} 
     for member in self.users
@@ -77,6 +91,9 @@ class Group < ActiveRecord::Base
       debit_details.delete_if{|k,v| v["principle_debit"] == 0 } 
     end 
 
+    deposit_amount = Bank.get_bank_deposit_amount(date,self.account.id)
+    withdraw_amount = Bank.get_bank_withdraw_amount(date,self.account.id)
+
     tot = 0
     for debit_detail in debit_details.to_a
       tot += debit_detail[1]["principle_debit"]
@@ -86,13 +103,34 @@ class Group < ActiveRecord::Base
       tot += expense.other_amount
     end
 
-    self.final_balance = self.final_balance.to_f + (total_hash["total"] - tot)
-    self.save
+    amount = (opening_balance + total_hash["total"] + withdraw_amount) - (tot + deposit_amount)
+    monthly_bucket = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, date.beginning_of_month, date.end_of_month]).first
+    if monthly_bucket
+      monthly_bucket.final_balance = amount
+      monthly_bucket.save
+    else
+      monthly_bucket = MonthlyBucket.new(:group_id => self.id, :date => date.to_date, :final_balance => amount)
+      monthly_bucket.save
+    end  
+    # self.final_balance = self.final_balance.to_f + (total_hash["total"] - tot)
+    # self.save
   end
 
   def update_bank_final_balance(date,another_acc_id)
-    self.bank_final_balance = self.bank_final_balance.to_f + Bank.get_bank_deposit_amount(date,another_acc_id) - Bank.get_bank_withdraw_amount(date,another_acc_id)
-    self.save
+    mb = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, (date.to_date.beginning_of_month - 1).beginning_of_month, (date.to_date.beginning_of_month - 1).end_of_month]).first
+    opening_balance = mb ? mb.bank_final_balance : 0
+    amount = (opening_balance + Bank.get_bank_deposit_amount(date,another_acc_id)) - Bank.get_bank_withdraw_amount(date,another_acc_id)
+    monthly_bucket = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, date.beginning_of_month, date.end_of_month]).first
+    if monthly_bucket
+      monthly_bucket.bank_final_balance = amount
+      monthly_bucket.save
+    else
+      monthly_bucket = MonthlyBucket.new(:group_id => self.id, :date => date.to_date, :bank_final_balance => amount)
+      monthly_bucket.save
+    end
+
+    # self.bank_final_balance = self.bank_final_balance.to_f + Bank.get_bank_deposit_amount(date,another_acc_id) - Bank.get_bank_withdraw_amount(date,another_acc_id)
+    # self.save
   end
 
   # cron job scheduled to update_final_balance

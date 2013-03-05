@@ -50,7 +50,8 @@ class Account < ActiveRecord::Base
     tran_date = date.beginning_of_month - 1
     from_date = tran_date.to_date.beginning_of_month
     to_date = tran_date.to_date.end_of_month
-    atd = AccountTranDetail.where(["((from_account_id = ? and to_account_id = ? and principle_credit != 0) or (from_account_id = ? and to_account_id = ? and principle_debit != 0)) and transaction_date >= ? and transaction_date <= ? ",self.id, to_account_id, to_account_id, self.id, from_date, to_date]).order("id desc").first
+    # atd = AccountTranDetail.where(["((from_account_id = ? and to_account_id = ? and principle_credit != 0) or (from_account_id = ? and to_account_id = ? and principle_debit != 0)) and transaction_date >= ? and transaction_date <= ? ",self.id, to_account_id, to_account_id, self.id, from_date, to_date]).order("id desc").first
+    atd = AccountTranDetail.where(["((from_account_id = ? and to_account_id = ? and principle_credit != 0) or (from_account_id = ? and to_account_id = ? and principle_debit != 0)) and transaction_date <= ? ",self.id, to_account_id, to_account_id, self.id, to_date]).order("id desc").first
     # atd ? (atd.principle_credit.to_f > 0 ? atd.to_outs_balance : atd.from_outs_balance) : 0
     atd ? (atd.principle_credit.to_f > 0 ? atd.from_outs_balance : atd.to_outs_balance) : 0
   end

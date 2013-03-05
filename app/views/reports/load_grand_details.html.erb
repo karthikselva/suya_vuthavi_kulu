@@ -35,7 +35,7 @@
       <th>Rs</th>  
       <th>paise</th>
     </tr>
-    <tr><td>&nbsp;</td><td><b>Opening Balance</b></td><td><%= @group.final_balance %></td><td>00</td><td><%= @group.bank_final_balance %></td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Opening Balance</b></td><td><%= @group.final_balance(params[:transaction_date]) %></td><td>00</td><td><%= @group.bank_final_balance(params[:transaction_date]) %></td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Savings</td><td><%= total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Due</td><td><%= total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Principle Collection</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
@@ -45,7 +45,7 @@
     <tr><td>&nbsp;</td><td>Bank Deposit</td><td>****</td><td>00</td><td><%= deposit %></td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Bank Withdraw</td><td><%= withdraw %></td><td>00</td><td>****</td><td>00</td></tr>
 
-    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_credit = total_hash["total"] + withdraw %></td><td>00</td><td><%= total_bank_credit = @group.bank_final_balance + deposit %></td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_credit = @group.final_balance(params[:transaction_date]) + total_hash["total"] + withdraw %></td><td>00</td><td><%= total_bank_credit = @group.bank_final_balance(params[:transaction_date]) + deposit %></td><td>00</td></tr>
 </table>
 </td>
 <td valign='top'>
@@ -86,4 +86,6 @@
 
 <tr><td colspan='2' style='text-align:right'>Final Balance : <b><%= total_credit - tot_debit%></b> &nbsp;&nbsp;&nbsp;Bank Final Balance : <b><%= total_bank_credit - total_bank_debit%></b></td></tr> 
 
-</tdebit = 
+</td>
+</tr>
+</table> 
