@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_one :account, :as => :accountable
   has_one :groups_user
 
-  after_save :create_account
+  after_create :create_account
   
   def create_account
     Account.make_account(self)
