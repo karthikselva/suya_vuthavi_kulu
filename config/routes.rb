@@ -39,6 +39,8 @@ SuyaVuthavi::Application.routes.draw do
     get :load_group_balances, :on => :collection
     get :expenses, :on => :collection
     get :save_expenses, :on => :collection
+    get :update_balance, :on => :collection
+    post :save_update_balance, :on => :collection
   end  
 
   resources :reports, :only => "index" do 

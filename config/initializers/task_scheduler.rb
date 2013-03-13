@@ -9,6 +9,6 @@ scheduler.cron("0 0 1 * *") do
 end
 
 scheduler.cron("0 0 1 * *") do
-  Bank.update_bank_final_balance(Date.today - 1)
+  Group.update_bank_final_balance(Date.today - 1)
 end
 

@@ -127,5 +127,15 @@ class AccountTransactionsController < ApplicationController
     end
     redirect_to show_transactions_account_transactions_path(:atd_credit_id => @atd_credit ? @atd_credit.id : "", :atd_debit_id => "")
   end 
+
+  def update_balance
+    
+  end  
+
+  def save_update_balance
+    Group.update_final_balance(params[:balance][:update_date].to_date)
+    Group.update_bank_final_balance(params[:balance][:update_date].to_date)
+    redirect_to root_url
+  end 
     
 end	
