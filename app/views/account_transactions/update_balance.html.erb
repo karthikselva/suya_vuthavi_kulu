@@ -1,0 +1,10 @@
+<h3 style='text-align:center'> Expenses </h3>
+<br/>
+<%= form_for(:group, :url => save_update_balance_account_transactions_path, :method => "post") do %>
+	<table>
+		<tr>
+	       <td><%= text_field :balance, :update_date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y") %></td>
+	       <td><%= submit_tag "save"%></td>
+	    </tr>
+	</table>       
+<% end %>
