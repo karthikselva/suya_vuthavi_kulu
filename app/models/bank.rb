@@ -29,7 +29,11 @@ class Bank < ActiveRecord::Base
   end	
 
   def self.get_bank_deposit_amount(date, another_acc_id)
-    self.get_bank_deposit_details(date, another_acc_id).inject(0){|acc, obj| acc + (obj.principle_debit.to_f + obj.other_amount.to_f) }
+    self.get_bank_deposit_details(date, another_acc_id).inject(0){|acc, obj| acc + (obj.principle_debit.to_f) } # + obj.other_amount.to_f
   end
+
+  def self.get_bank_interest_amount(date,another_acc_id)
+    self.get_bank_withdraw_details(date, another_acc_id).inject(0){|acc, obj| acc + (obj.other_amount.to_f) }
+  end  
 
 end

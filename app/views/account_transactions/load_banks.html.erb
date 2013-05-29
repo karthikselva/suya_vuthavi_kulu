@@ -3,10 +3,10 @@
 <%= hidden_field_tag :transaction_date, params[:date].to_date %>
 <table id="table_style">
     <tr>
-      	<th>Name</th>
+      	<th>Bank</th>
         <th>Principle Credit</th>
         <th>Principle Debit</th>
-        <th>Others</th>
+        <th>Bank Interest</th>
     </tr>
     <tr>
         <td><%= collection_select :bank,:id, @banks, :id, :account_number, {:prompt => "Select"} %></td>
