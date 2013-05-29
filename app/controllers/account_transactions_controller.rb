@@ -85,14 +85,14 @@ class AccountTransactionsController < ApplicationController
     group_account = Group.find(params[:group][:id]).account 
     bank_account = Bank.find(params[:bank][:id]).account  
     #inflow
-    amount_hash = {:principle_credit => params[:account_tran_detail][:principle_credit].to_f}
+    amount_hash = {:principle_credit => params[:account_tran_detail][:principle_credit].to_f, :other_amount => params[:account_tran_detail][:other_amount].to_f}
     if amount_hash.values.any?{|v| v > 0 }
       @atd_credit = AccountTranDetail.new
       @atd_credit.save_tranction(bank_account.id, group_account.id, params[:transaction_date].to_date, amount_hash)
     end    
 
     #outflow
-    amount_hash = {:principle_debit => params[:account_tran_detail][:principle_debit].to_f, :other_amount => params[:account_tran_detail][:other_amount].to_f}
+    amount_hash = {:principle_debit => params[:account_tran_detail][:principle_debit].to_f}
     if amount_hash.values.any?{|v| v > 0 } #params[:account_tran_detail][:principle_debit].to_f > 0 
       @atd_debit = AccountTranDetail.new
       @atd_debit.save_tranction(group_account.id, bank_account.id, params[:transaction_date].to_date, amount_hash)
