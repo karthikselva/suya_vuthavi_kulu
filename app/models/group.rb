@@ -119,7 +119,7 @@ class Group < ActiveRecord::Base
   def update_bank_final_balance(date,another_acc_id)
     mb = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, (date.to_date.beginning_of_month - 1).beginning_of_month, (date.to_date.beginning_of_month - 1).end_of_month]).first
     opening_balance = mb ? mb.bank_final_balance : 0
-    amount = (opening_balance + Bank.get_bank_deposit_amount(date,another_acc_id)) - Bank.get_bank_withdraw_amount(date,another_acc_id)
+    amount = (opening_balance + Bank.get_bank_deposit_amount(date,another_acc_id) + Bank.get_bank_interest_amount(date,another_acc_id)) - Bank.get_bank_withdraw_amount(date,another_acc_id)
     monthly_bucket = MonthlyBucket.where(["group_id = ? and date >= ? and date <= ?", self.id, date.beginning_of_month, date.end_of_month]).first
     if monthly_bucket
       monthly_bucket.bank_final_balance = amount
