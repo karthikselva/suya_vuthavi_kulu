@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   def update
   	@user = User.find(params[:id])
   	if @user.update_attributes(params[:user])
+      @user.account.update_attributes(:name => @user.full_name)
       if @user.groups_user
         @user.groups_user.update_attributes(:group_id => params[:selected][:group_id])
       else  
