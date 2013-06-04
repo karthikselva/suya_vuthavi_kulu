@@ -9,6 +9,9 @@
         <th>Total</th>
     </tr>
     <% i = 0 %>
+    <% bal_total = 0 %>
+    <% intr_total = 0 %>
+    <% tot_total = 0 %>
     <% for member in @members %>
     <% i += 1 %>
     <tr>
@@ -17,8 +20,18 @@
         <td><%= bal = member.account.outstanding_balance %></td>
         <td><%= intr = member.get_balance_interest(params["date"].to_date) %></td>
         <td><%= bal + intr %></td>
+        <% bal_total += bal %>
+        <% intr_total += intr %>
+        <% tot_total += (bal + intr) %>
     </tr>
     <% end %>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><%= bal_total %></td>
+        <td><%= intr_total %></td>
+        <td><%= tot_total %></td>
+    </tr>    
 </table>
 <br/>
 <h3 style='text-align:center'>Group Loan Details</h3>
