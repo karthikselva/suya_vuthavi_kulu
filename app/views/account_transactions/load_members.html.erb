@@ -38,13 +38,23 @@
     <% end %>
     <tr>
         <td><b>Grand Total</b></td>
-        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0 %></td>
-        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0, :title => "Saving Total" %></td>
+        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0, :title => "Due Total" %></td>
+        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0, :title => "Principle Credit Total" %></td>
+        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0, :title => "Int Credit Total" %></td>
+        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0, :title => "Others Total" %></td>
+        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0, :title => "Principal Debit Total" %></td>
+        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0, :title => "Grand Total" %></td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <th>Saving</th>
+        <th>Due</th>
+        <th>Principal Credit</th>
+        <th>Interest</th>
+        <th>Others</th>
+        <th>Principal Debit</th>
+        <th>Total</th>
     </tr>
 </table>
 <br/>
