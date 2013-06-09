@@ -134,7 +134,7 @@ class AccountTransactionsController < ApplicationController
   end  
 
   def save_update_balance
-    group = params[:select][:group].balnk? ? nil : Group.find(params[:select][:group])
+    group = params[:select][:group].blank? ? nil : Group.find(params[:select][:group])
     Group.update_final_balance(params[:balance][:update_date].to_date, group)
     Group.update_bank_final_balance(params[:balance][:update_date].to_date, group)
     redirect_to root_url
