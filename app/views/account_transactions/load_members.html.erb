@@ -37,7 +37,13 @@
     </tr>
     <% end %>
     <tr>
-        <td colspan='7' style="text-align:right"><b>Grand Total</b></td>
+        <td><b>Grand Total</b></td>
+        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0 %></td>
+        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0 %></td>
         <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0 %></td>
     </tr>
 </table>
@@ -72,14 +78,38 @@
     grand_total()
   }
 
+  function find_NaN_value(ele_value)
+  {
+    value = parseFloat(ele_value)
+    return ( isNaN(value) ? 0 : value)
+  }
+
   var COUNT = '<%= @members.length %>'
   function grand_total()
   {
     grnd_total = 0
+    saving_tot = 0
+    due_tot = 0
+    principle_credit_tot = 0 
+    interest_credit_tot = 0 
+    others_tot = 0
+    principal_debit_tot = 0
     for(i=1;i<=parseInt(COUNT);i++)
     {
-      grnd_total = grnd_total + parseFloat($("#reference_" + i + "_total").val()) 
+      grnd_total = grnd_total + find_NaN_value($("#reference_" + i + "_total").val()) 
+      saving_tot = saving_tot + find_NaN_value($("#account_tran_detail_" + i + "_saving").val()) 
+      due_tot = due_tot + find_NaN_value($("#account_tran_detail_" + i + "_due").val()) 
+      principle_credit_tot = principle_credit_tot + find_NaN_value($("#account_tran_detail_" + i + "_principle_credit").val()) 
+      interest_credit_tot = interest_credit_tot + find_NaN_value($("#account_tran_detail_" + i + "_interest_credit").val()) 
+      others_tot = others_tot + find_NaN_value($("#account_tran_detail_" + i + "_other_amount").val()) 
+      principal_debit_tot = principal_debit_tot + find_NaN_value($("#account_tran_detail_" + i + "_principle_debit").val()) 
     }
     $("#reference_grand_total").val(grnd_total) 
+    $("#reference_saving_tot").val(saving_tot) 
+    $("#reference_due_tot").val(due_tot) 
+    $("#reference_principle_credit_tot").val(principle_credit_tot) 
+    $("#reference_interest_credit_tot").val(interest_credit_tot) 
+    $("#reference_others_tot").val(others_tot) 
+    $("#reference_principal_debit_tot").val(principal_debit_tot) 
   }
 </script>
