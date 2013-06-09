@@ -130,12 +130,13 @@ class AccountTransactionsController < ApplicationController
   end 
 
   def update_balance
-    
+    @groups = Group.order("name")
   end  
 
   def save_update_balance
-    Group.update_final_balance(params[:balance][:update_date].to_date)
-    Group.update_bank_final_balance(params[:balance][:update_date].to_date)
+    group = params[:select][:group].balnk? ? nil : Group.find(params[:select][:group])
+    Group.update_final_balance(params[:balance][:update_date].to_date, group)
+    Group.update_bank_final_balance(params[:balance][:update_date].to_date, group)
     redirect_to root_url
   end 
     

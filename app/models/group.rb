@@ -134,12 +134,12 @@ class Group < ActiveRecord::Base
   end
 
   # cron job scheduled to update_final_balance
-  def self.update_final_balance(date)
-    Group.all.each{|group| group.update_final_balance(date) }
+  def self.update_final_balance(date,group)
+    group ? group.update_final_balance(date) : Group.all.each{|group| group.update_final_balance(date) }
   end
 
-  def self.update_bank_final_balance(date)
-    Group.all.each{|group| group.update_bank_final_balance(date, group.account.id) }
+  def self.update_bank_final_balance(date,group)
+    group ? group.update_bank_final_balance(date, group.account.id) : Group.all.each{|group| group.update_bank_final_balance(date, group.account.id) }
   end
 
 end
