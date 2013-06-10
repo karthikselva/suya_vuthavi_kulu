@@ -4,6 +4,7 @@
 
 <table id="table_style">
     <tr>
+        <th>S:No</th>
       	<th>Name</th>
       	<th>Saving</th>
       	<th>Due</th>
@@ -21,7 +22,8 @@
         <% bal_due = member.get_balance_due(params[:date].to_date) %>
         <% outs_bal = member.account.outstanding_balance %>
         <% bal_interest = member.get_balance_interest(params[:date].to_date) %>
-
+        
+        <td><%=member.position.to_s %></td>
         <td><%=member.full_name %><%= hidden_field :member, :id, :index => i, :value => member.id %></td>
         <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :title => "Bal :" + bal_saving.to_s %></td>
         <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :title => "Bal :" + bal_due.to_s%></td>

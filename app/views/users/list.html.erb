@@ -2,7 +2,6 @@
 <br/>
 <table id="table_style">
 	<tr>
-		<th>S:No</th>
 		<th>First Name</th>
 		<th>Last Name</th>
 		<th>Email</th>
@@ -11,11 +10,9 @@
 		<th>Group Name</th>
 		<th></th>
 		<th></th>
-	</tr>
-
+	</tr>	
 	<% for user in @users %>
 	  <tr>
-	  	<td><%= user.position.to_i %></td>
 		<td><%= user.first_name %></td>
 		<td><%= user.last_name %></td>
 		<td><%= user.email %></td>
