@@ -13,7 +13,7 @@ class AccountTransactionsController < ApplicationController
 
   def load_members
   	@group = Group.find(params[:group_id])
-  	@members = @group.users.sort{|a,b| a.position <=> b.position }
+  	@members = @group.users.sort{|a,b| a.position.to_i <=> b.position.to_i }
   	render :layout => false
   end
 
