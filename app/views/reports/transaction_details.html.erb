@@ -1,0 +1,37 @@
+<table id="table_style">
+    <tr>
+        <th>S.No</th>
+        <th>Date</th>
+      	<th>Name</th>
+      	<th>Type</th>
+      	<th>Credit</th>
+      	<th>Debit</th>
+    </tr>
+    <% i = 0 %>
+    <% for atd in @acc_tran_details %>
+      <% credit_trns = {"Saving" => atd.saving, "Due" => atd.due, "Principle Return" => atd.principle_credit, "Principle Interest" => atd.interest_credit, "Other Amount" => atd.other_amount } %> 
+      <% debit_trns = {"Principle Debit" => atd.principle_debit} %> 
+      <% for credit_trn in credit_trns.delete_if{|k,v| v.to_f < 1 } %>
+	    <tr>
+	        <% i += 1 %>
+	        <td><%= i %></td>
+	        <td><%= atd.transaction_date %></td>
+	        <td><%= atd.to_account.name %></td>
+	        <td><%= credit_trn[0] %></td>
+	        <td><%= credit_trn[1] %></td>
+            <td><%= 0.0 %></td>
+	    </tr>
+	  <% end %>  
+	  <% for debit_trn in debit_trns.delete_if{|k,v| v.to_f < 1 } %>
+	    <tr>
+	        <% i += 1 %>
+	        <td><%= i %></td>
+	        <td><%= atd.transaction_date %></td>
+	        <td><%= atd.from_account.name %></td>
+	        <td><%= debit_trn[0] %></td>
+	        <td><%= 0.0 %></td>
+            <td><%= debit_trn[1] %></td>
+	    </tr>
+	  <% end %>     
+    <% end %>
+</table>

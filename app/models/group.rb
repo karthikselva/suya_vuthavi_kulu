@@ -3,8 +3,8 @@ class Group < ActiveRecord::Base
   attr_accessible :name, :saving_amount, :due_amount
 
   has_one :account, :as => :accountable
-  has_many :groups_users
-  has_many :users, :through => :groups_users
+  has_many :groups_user
+  has_many :users, :through => :groups_user
   has_many :monthly_buckets
 
   after_save :create_account

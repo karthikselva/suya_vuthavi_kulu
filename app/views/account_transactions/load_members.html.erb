@@ -25,12 +25,12 @@
         
         <td><%=member.position.to_s %></td>
         <td><%=member.full_name %><%= hidden_field :member, :id, :index => i, :value => member.id %></td>
-        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :title => "Bal :" + bal_saving.to_s %></td>
-        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :title => "Bal :" + bal_due.to_s%></td>
-        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'principle_credit')", :title => "Bal :" + outs_bal.to_s%></td>
-        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'interest_credit')", :title => "Bal :" + bal_interest.to_s%></td>
-        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
-        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
+        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_saving.to_s %></td>
+        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_due.to_s%></td>
+        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'principle_credit')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + outs_bal.to_s%></td>
+        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'interest_credit')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_interest.to_s%></td>
+        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3",:onchange => "find_total(#{i})", :onkeypress => "return float_only(event,2)"%></td>
+        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3",:onchange => "find_total(#{i})", :onkeypress => "return float_only(event,2)"%></td>
         <td><%= text_field :reference,:total, :index => i,:size=>"3", :value => 0, :readonly => true%></td>
             <%= hidden_field :hidden, :saving, :index => i, :value => bal_saving %>
             <%= hidden_field :hidden, :due, :index => i, :value => bal_due %> 
@@ -41,13 +41,13 @@
     <tr>
         <td></td>
         <td><b>Grand Total</b></td>
-        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0, :title => "Saving Total" %></td>
-        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0, :title => "Due Total" %></td>
-        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0, :title => "Principle Credit Total" %></td>
-        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0, :title => "Int Credit Total" %></td>
-        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0, :title => "Others Total" %></td>
-        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0, :title => "Principal Debit Total" %></td>
-        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0, :title => "Grand Total" %></td>
+        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0, :title => "Saving Total", :readonly => true %></td>
+        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0, :title => "Due Total", :readonly => true %></td>
+        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0, :title => "Principle Credit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0, :title => "Int Credit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0, :title => "Others Total", :readonly => true %></td>
+        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0, :title => "Principal Debit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0, :title => "Grand Total", :readonly => true %></td>
     </tr>
     <tr>
         <th>S:No</th>

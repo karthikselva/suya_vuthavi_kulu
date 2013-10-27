@@ -5,7 +5,7 @@
   <th>    
 Groups : <%= collection_select :select, :group, @groups, :id, :name, {:prompt => "Select"} %>
 <br/></th>
-<th>Date : <%= text_field :select, :date, :size => "6", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
+<th>Date : <%= text_field :select, :date, :size => "8", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
 <br/></th>
 <th><%= button_tag "submit", :onclick => "load_members()"%></th>
 </tr>

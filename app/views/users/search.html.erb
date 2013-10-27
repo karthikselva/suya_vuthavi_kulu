@@ -1,21 +1,7 @@
 <H3 style='text-align:center'>User Details</H3>
 <br/>
-<fieldset><legend>Search User</legend>
-<%= form_for :user, :url => search_users_path do %>
-  <table>
-	<tr>
-	  <td>Name</td>
-	  <td><%= text_field :search, :first_name,:size=> "15" %></td>
-	  <td>Group</td>
-	  <td><%= collection_select :search, :group_id, @groups, :id, :name, :prompt => "Select" %></td>
-	  <td><%= submit_tag "search" %></td>
-	</tr> 
-  </table>	
-<%end%>	
-</fieldset>
 <br/>
 <table id="table_style">
-<tr></tr>
 	<tr>
 		<th>First Name</th>
 		<th>Last Name</th>
@@ -26,7 +12,6 @@
 		<th></th>
 		<th></th>
 	</tr>	
-	<!-- < %user = @users%> -->
     <% for user in @users %>
 	  <tr>
 	  	<td><%= user.first_name %></td>
@@ -40,4 +25,5 @@
 		<td><%= link_to "Delete", user_path(user), :confirm => "Are you sure?", :method=>:delete %></td>
 	  </tr>	
 	<% end %>
-	</table>	
+		
+</table>	

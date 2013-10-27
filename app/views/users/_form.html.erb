@@ -16,8 +16,9 @@
 		<td><%= text_field :user, :dob, :size => "8", :class => "datepicker" %></td>
 	</tr>
 	<tr>
+	    <% group = @user.get_group%>
 		<td>Group :</td>
-		<td><%= collection_select :selected, :group_id, @groups,:id, :name, {:prompt => "Select"} %></td>
+		<td><%= collection_select :selected, :group_id, @groups,:id, :name, {:prompt => "Select", :selected => group ? group.id : nil} %></td>
 	</tr>	
 	<tr>
 		<td>Position :</td>

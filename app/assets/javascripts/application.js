@@ -13,3 +13,39 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+function float_only(e, nod){
+	if (!nod)
+	{
+		nod=2
+	}
+	var key;
+	var keychar;
+	if (window.event) 
+		key = window.event.keyCode;
+	else 
+		if (e) 
+			key = e.which;
+		else 
+			return true;
+	keychar = String.fromCharCode(key);
+	// control keys
+	if ((key == null) || (key == 0) || (key == 8) || (key == 9) || (key == 13) || (key == 27)) 
+		return true;
+	else 
+		if ((("0123456789.").indexOf(keychar) > -1)) {
+			if ((e.element().value == "" || (isNaN(parseFloat(e.element().value)) || parseFloat(e.element().value) < 1000000000)) && !(key == 46 && e.element().value.include("."))) {
+				if(e.element().selectionStart <= e.element().value.split('.')[0].length)
+				{
+					return true
+				}
+				return (e.element().value.split(".").length > 1 && e.element().value.split(".")[1].length > (nod-1)) ? false : true
+			}
+			else {
+				return false;
+			}	
+		}
+		else {
+			return false;
+		}	
+}
