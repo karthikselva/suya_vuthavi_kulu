@@ -9,7 +9,7 @@ bodys {
 	margin: 0;
 	padding: 0;
 	background: #C1C1C1;
-	background-image:url(background.png)
+	background-image:url(background.png);
 	text-align: left;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 13px;
@@ -25,7 +25,8 @@ background-repeat:repeat;
 *
 {
   margin: 0 auto 0 auto;
- text-align:left;}
+  text-align: left;
+}
 
 
 html, body {
