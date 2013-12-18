@@ -5,7 +5,7 @@ text-align: center;
 }
 p {text-align: left;}
 
-body {
+bodys {
 	margin: 0;
 	padding: 0;
 	background: #C1C1C1;
@@ -14,6 +14,13 @@ body {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: #F1F5F8;
+}
+#gallery{
+	background: -webkit-linear-gradient(top, #2F2727, #1a82f7);height:60px;width:1003px;color:#fff;font-size:50px !important;padding:35px 0px 0px 0px;
+           background: -moz-linear-gradient(top, #2F2727, #1a82f7);height:60px;width:1003px;color:#fff;font-size:50px !important;padding:35px 0px 0px 0px;}
+#gallery p{font-size:50px;font-weight:bold;padding:0px 0px 0px 300px;color:#fff;}
+#page{    background: url("images5.jpeg") ;
+background-repeat:repeat;
 }
 *
 {
@@ -33,7 +40,7 @@ p {text-align: left;}
 {
 display:block;
 float:left;
-line-height:35px;
+line-height:27px;
 margin-left:17px;
 width:230px;
 color:#FFFFFF;
@@ -59,25 +66,27 @@ float:left;
 	float:left;
 	margin: 0px;
 	text-align:center;
-	line-height:30px;
+	line-height:27px;
 	width:133px;
 	color:#FFFFFF;
 
 	font-size:12px;
 	font-weight:bold;
 	text-decoration:none;
+
 }
 
 #header ul li a:hover{
 color: #00FFFF;
+
 }
 
 
 
 #main 
 {
-margin-top:10px;
-margin-bottom:10px;
+margin-top:0px;
+margin-bottom:0px;
 }
 
 
@@ -93,10 +102,9 @@ background-repeat:no-repeat;
 {
 
 padding-left:0px;
-height:420px;
-width:921px;
-background-image:url(main_body.png);
-background-repeat:repeat-y;
+min-height:520px;
+width:1003px;
+background-color:#fff;
 color:#000000;
 padding-bottom:20px;
 
@@ -135,7 +143,7 @@ background-repeat:no-repeat;
 }
 
 
-#page
+#pages
 {
   margin: 0 auto 0 auto; 
   margin-top:25px;
@@ -146,14 +154,24 @@ background-repeat:no-repeat;
   width: 921px;
 }
 
-#header
+#headers
 {
 background-image:url(header.png);
 background-repeat:no-repeat;
 width:921px;
 height:35px;
 }
-
+#header{
+	background: -webkit-linear-gradient(left, rgba(169,3,41,1) 0%, rgba(143,2,34,1) 44%, rgba(109,0,25,1) 100%);
+	background: -moz-linear-gradient(top, #2f2727, #1a82f7);height:25px;width:100%;
+	border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 6px solid #5b8d9c;
+	background-repeat:no-repeat;
+width:1003px;
+height:27px;
+}
 
 
 #footer {
@@ -232,10 +250,9 @@ caption{
   font-size       :     10px;
   color           :  #111111;
   position        : absolute;
-  top             :     35px;
   border          :      1px;
   padding         :      3px;
   z-index         :       16;
-  background-color:   #295785;
+  background-color:    #990033;
   cursor          :  pointer; }
 
