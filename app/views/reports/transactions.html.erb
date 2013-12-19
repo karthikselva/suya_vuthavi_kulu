@@ -6,7 +6,7 @@
       <th>User : <%= collection_select :user, :user_id, User.all.sort{|s,s1| s.full_name <=> s1.full_name}, :id, :full_name, {:prompt => "Select"} %></th>
     </tr>
   <% else %>
-    <% hidden_field :user, :user_id , :value => current_user.id %>   
+    <%= hidden_field :user, :user_id , :value => current_user.id %>   
   <% end %>
   <tr>
     <th>
