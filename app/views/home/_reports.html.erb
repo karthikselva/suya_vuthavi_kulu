@@ -1,0 +1,15 @@
+<ul>
+  <li><a onmouseover="showMenu(3)" onmouseout="startTimer()" style="cursor:pointer">Reports</a></li>
+  <li>
+    <div class="popupMenu" id="menu_3" style="display: none;">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr id="opt_d"><td><%= link_to "Loan Details", loan_details_reports_path%></td></tr>
+          <tr id="opt_d"><td><%= link_to "Monthly Details", monthly_loan_details_reports_path%></td></tr>
+          <tr id="opt_d"><td><%= link_to "Grand Details", grand_details_reports_path%></td></tr>
+          <tr id="opt_d"><td><%= link_to "Tansactions", transactions_reports_path%></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </li>
+</ul>

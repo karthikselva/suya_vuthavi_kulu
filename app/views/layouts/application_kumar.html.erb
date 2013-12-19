@@ -31,67 +31,22 @@ Released   : 2009-07-25
       <p>Mangudi Therkuvadi</p>
       </div>
 
+        <% partials = {"Admin" => ["admin", "transactions", "reports"], "Normal" =>  ["reports"] } %>
+        <% partial_list = current_user ? current_user.role_names.collect{|name| partials[name]}.flatten.compact.uniq.sort : [] %>
         <div id="header">
-        	
-            <ul>
-                <li>
-                   <ul>
-                      <li><a onmouseover="showMenu(1)" onmouseout="startTimer()" style="cursor:pointer">Admin</a></li>
-                      <li>
-                        <div class="popupMenu" id="menu_1" style="display: none;">
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tbody>
-                              <tr id="opt_d"><td><%= link_to "Users", list_users_path%></td></tr>
-                              <tr id="opt_e"><td><%= link_to "Groups", groups_path%></td></tr>
-                              <tr id="opt_f"><td><%= link_to "Banks", banks_path%></td></tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </li>
-                   </ul>   
-                 </li>
-                 <li>
-                   <ul>
-                      <li><a onmouseover="showMenu(2)" onmouseout="startTimer()" style="cursor:pointer">Transactions</a></li>
-                      <li>
-                        <div class="popupMenu" id="menu_2" style="display: none;">
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tbody>
-                              <tr id="opt_d"><td><%= link_to "Member Transaction", member_transaction_account_transactions_path %></td></tr>
-                              <tr id="opt_e"><td><%= link_to "Group Transaction", group_transaction_account_transactions_path %></td></tr>
-                              <tr id="opt_f"><td><%= link_to "Bank Transaction", bank_transaction_account_transactions_path %></td></tr>
-                              <tr id="opt_f"><td><%= link_to "Expenses", expenses_account_transactions_path %></td></tr>
-                              <tr id="opt_f"><td><%= link_to "Update Balance", update_balance_account_transactions_path %></td></tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </li>
-                   </ul>
-                 </li>
-                <li>
-                  <ul>
-                      <li><a onmouseover="showMenu(3)" onmouseout="startTimer()" style="cursor:pointer">Reports</a></li>
-                      <li>
-                        <div class="popupMenu" id="menu_3" style="display: none;">
-                          <table border="0" cellpadding="0" cellspacing="0">
-                            <tbody>
-                              <tr id="opt_d"><td><%= link_to "Loan Details", loan_details_reports_path%></td></tr>
-                              <tr id="opt_d"><td><%= link_to "Monthly Details", monthly_loan_details_reports_path%></td></tr>
-                              <tr id="opt_d"><td><%= link_to "Grand Details", grand_details_reports_path%></td></tr>
-                              <tr id="opt_d"><td><%= link_to "Tansactions", transactions_reports_path%></td></tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </li>
-                   </ul>
-                </li>
-                <li>&nbsp;</li>
-                <% unless user_signed_in? -%>
-                   <li style="float:right;"><%= link_to "Sign in", signin_path %></li>
-                <% else -%>
-                   <li style="float:right;"><%= link_to "Sign out", signout_path %></li>
-                <% end -%>
-            </ul>
+           <ul>
+             <% for partial in partial_list %>
+               <li>
+                 <%= render :partial => "home/"+partial %>
+               </li>
+             <% end %>
+             <li>&nbsp;</li>
+             <% unless user_signed_in? -%>
+               <li style="float:right;"><%= link_to "Sign in", signin_path %></li>
+             <% else -%>
+               <li style="float:right;"><%= link_to "Sign out", signout_path %></li>
+             <% end -%>
+        	 </ul>
         </div>
   
         <div id="main">

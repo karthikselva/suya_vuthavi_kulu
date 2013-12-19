@@ -1,7 +1,7 @@
 <h3 style='text-align:center'>Transaction Details </h3>
 <br/>
 <table>
-  <% if "Admin" == current_user.role.name %>
+  <% if current_user.role_names.include?("Admin") %>
     <tr>
       <th>User : <%= collection_select :user, :user_id, User.all.sort{|s,s1| s.full_name <=> s1.full_name}, :id, :full_name, {:prompt => "Select"} %></th>
     </tr>
