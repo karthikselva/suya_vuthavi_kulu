@@ -24,7 +24,7 @@
 		<th>Account Name</th>
 		<th>Group Name</th>
 		<th></th>
-		<th></th>
+		<!--th></th-->
 	</tr>	
 	<!-- < %user = @users%> -->
     <% for user in @users %>
@@ -37,7 +37,7 @@
 		<!-- < %raise user.group_name.to_s.inspect % > -->
 		<td><%= user.group_name%></td>
 		<td><%= link_to "Edit", edit_user_path(user) %></td>
-		<td><%= link_to "Delete", user_path(user), :confirm => "Are you sure?", :method=>:delete %></td>
+		<!--td>< % = link_to "Delete", user_path(user), :confirm => "Are you sure?", :method=>:delete % ></td-->
 	  </tr>	
 	<% end %>
 	</table>	

@@ -6,7 +6,7 @@
 		<th>Saving</th>
 		<th>Due</th>
 		<th></th>
-		<th></th>
+		<!--th></th-->
 	</tr>	
 	<% for group in @groups %>
 	  <tr>
@@ -14,7 +14,7 @@
 		<td><%= group.saving_amount %></td>
 		<td><%= group.due_amount %></td>
 		<td><%= link_to "Edit", edit_group_path(group) %></td>
-		<td><%= link_to "Delete", group_path(group), :confirm => "Are you sure?", :method=>:delete %></td>
+		<!--td>< % = link_to "Delete", group_path(group), :confirm => "Are you sure?", :method=>:delete % ></td-->
 	  </tr>	
 	<% end %>
 </table>	
