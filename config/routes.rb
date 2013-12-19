@@ -22,6 +22,7 @@ SuyaVuthavi::Application.routes.draw do
 
   resources :users do
     get :list, :on => :collection
+    get :search, :on => :collection
   end  
   resources :groups
   resources :banks
@@ -37,6 +38,10 @@ SuyaVuthavi::Application.routes.draw do
     get :save_bank_transaction, :on => :collection
     get :show_transactions, :on => :collection
     get :load_group_balances, :on => :collection
+    get :expenses, :on => :collection
+    get :save_expenses, :on => :collection
+    get :update_balance, :on => :collection
+    post :save_update_balance, :on => :collection
   end  
 
   resources :reports, :only => "index" do 
@@ -48,6 +53,8 @@ SuyaVuthavi::Application.routes.draw do
     get :load_monthly_loan_details, :on => :collection
     get :grand_details, :on => :collection
     get :load_grand_details, :on => :collection
+    get :transactions, :on => :collection
+    get :transaction_details, :on => :collection
   end 
 
   # The priority is based upon order of creation:

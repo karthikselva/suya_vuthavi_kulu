@@ -15,6 +15,11 @@
   <% debit_details.delete_if{|k,v| v["principle_debit"] == 0 } %>
 
 <% end %>
+<%
+  deposit = Bank.get_bank_deposit_amount(params[:transaction_date].to_date, @group.account.id)
+  withdraw = Bank.get_bank_withdraw_amount(params[:transaction_date].to_date, @group.account.id)
+  bank_interest = Bank.get_bank_interest_amount(params[:transaction_date].to_date, @group.account.id)
+%>
 <table>
 <tr>
 <td valign='top'>  
@@ -22,8 +27,8 @@
     <tr>
       <th rowspan='2'>Date</th>  
       <th rowspan='2'>Credit Details</th>
-      <th colspan='2'>Cash</th>
-      <th colspan='2'>Bank</th>
+      <th colspan='2' style='text-align:center'>Cash</th>
+      <th colspan='2' style='text-align:center'>Bank</th>
     </tr> 
     <tr>
       <th>Rs</th>  
@@ -31,13 +36,17 @@
       <th>Rs</th>  
       <th>paise</th>
     </tr>
-    <tr><td>&nbsp;</td><td>Opening Balance</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td><b>Opening Balance</b></td><td><%= @group.final_balance(params[:transaction_date]) %></td><td>00</td><td><%= @group.bank_final_balance(params[:transaction_date]) %></td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Savings</td><td><%= total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Due</td><td><%= total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Interest Collect</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Principle Collection</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Interest Collection</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td><%= bank_interest %></td><td>00</td></tr>
     <tr><td>&nbsp;</td><td>Others</td><td><%=  total_hash["other_amount"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_hash["total"] %></td><td>00</td><td>0</td><td>00</td></tr>
+
+    <tr><td>&nbsp;</td><td>Bank Deposit</td><td>****</td><td>00</td><td><%= deposit %></td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Bank Withdraw</td><td><%= withdraw %></td><td>00</td><td>****</td><td>00</td></tr>
+
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_credit = @group.final_balance(params[:transaction_date]) + total_hash["total"] + withdraw %></td><td>00</td><td><%= total_bank_credit = @group.bank_final_balance(params[:transaction_date]) + deposit + bank_interest%></td><td>00</td></tr>
 </table>
 </td>
 <td valign='top'>
@@ -45,8 +54,8 @@
     <tr>
       <th rowspan='2'>Date</th>  
       <th rowspan='2'>Debit Details</th>
-      <th colspan='2'>Cash</th>
-      <th colspan='2'>Bank</th>
+      <th colspan='2' style='text-align:center'>Cash</th>
+      <th colspan='2' style='text-align:center'>Bank</th>
     </tr> 
     <tr>
       <th>Rs</th>  
@@ -55,17 +64,29 @@
       <th>paise</th>
     </tr>
 
-    <tr><td>&nbsp;</td><td>Loan Issued</td><td>0</td><td>00</td><td>0</td><td>00</td></tr>
+    <% tot = 0 %>
+    <tr><td>&nbsp;</td><td><b>Loan Issued</b></td><td></td><td></td><td></td><td></td></tr>
     <% for debit_detail in debit_details.to_a %>
+      <% tot += debit_detail[1]["principle_debit"] %>
       <tr><td>&nbsp;</td><td><%= debit_detail[0] %></td><td><%= debit_detail[1]["principle_debit"] %></td><td>00</td><td>0</td><td>00</td></tr>
     <% end %>
-    <tr><td>&nbsp;</td><td>Savings</td><td><%=  total_hash["saving"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Due</td><td><%=  total_hash["due"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Principle Collect</td><td><%= total_hash["principle_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Interest Collect</td><td><%= total_hash["interest_credit"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td>Others</td><td><%=  total_hash["other_amount"] %></td><td>00</td><td>0</td><td>00</td></tr>
-    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  total_hash["total"] %></td><td>00</td><td>0</td><td>00</td></tr>
+
+    <tr><td>&nbsp;</td><td><b>Expenses</b></td><td></td><td></td><td></td><td></td></tr>
+    <% for expense in @group.get_expenses(params[:transaction_date]) %>
+      <% tot += expense.other_amount %>
+      <tr><td>&nbsp;</td><td><%= expense.comments %></td><td><%= expense.other_amount %></td><td>00</td><td>0</td><td>00</td></tr>
+    <% end %>
+
+    <tr><td>&nbsp;</td><td>Bank Deposit</td><td><%= deposit %></td><td>00</td><td>****</td><td>00</td></tr>
+    <tr><td>&nbsp;</td><td>Bank Withdraw</td><td>****</td><td>00</td><td><%= withdraw %></td><td>00</td></tr>
+
+    <tr><td>&nbsp;</td><td><b>Total</b></td><td><%=  tot_debit = tot + deposit %></td><td>00</td><td><%= total_bank_debit = withdraw %></td><td>00</td></tr>
 </table>
 </td>
 </tr>
-</table>
+
+<tr><td colspan='2' style='text-align:right'>Final Balance : <b><%= total_credit - tot_debit%></b> &nbsp;&nbsp;&nbsp;Bank Final Balance : <b><%= total_bank_credit - total_bank_debit%></b></td></tr> 
+
+</td>
+</tr>
+</table> 

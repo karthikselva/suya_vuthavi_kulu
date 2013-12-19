@@ -1,0 +1,46 @@
+<h3 style='text-align:center'>Transaction Details </h3>
+<br/>
+<table>
+  <% if current_user.role_names.include?("Admin") %>
+    <tr>
+      <th>User : <%= collection_select :user, :user_id, User.all.sort{|s,s1| s.full_name <=> s1.full_name}, :id, :full_name, {:prompt => "Select"} %></th>
+    </tr>
+  <% else %>
+    <%= hidden_field :user, :user_id , :value => current_user.id %>   
+  <% end %>
+  <tr>
+    <th>
+       From : <%= text_field :user, :from_date, :size => "8", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
+    </th>
+    <th>
+       To : <%= text_field :user, :to_date, :size => "8", :class => "datepicker", :value => Date.today.strftime("%d-%m-%Y"), :readonly => true %>
+    </th>
+    <th><%= button_tag "submit", :onclick => "load_monthly_loan_details()"%></th>
+  </tr>
+</table>
+<br/>
+
+<div id="result"></div>	
+
+<script>
+  function load_monthly_loan_details()
+  {
+  	group_id = $("#select_group").val()
+  	if(group_id != "")
+  	{
+  		$.ajax
+    ({
+		  url: '<%= transaction_details_reports_path %>',
+		  data: { "from_date": $("#user_from_date").val(), "to_date": $("#user_to_date").val(), "user_id": $("#user_user_id").val() },
+		  success: function(data) 
+      {
+		    $('#result').html(data);
+		  }
+		});
+  	}
+  	else
+  	{
+  		$('#result').html("No Result")
+  	}  
+  }
+</script>

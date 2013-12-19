@@ -1,26 +1,16 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :dob
-  # attr_accessible :title, :body
-  belongs_to :role
   has_one :account, :as => :accountable
   has_one :groups_user
+  has_and_belongs_to_many :roles
+  has_many :roles_user  
 
-  after_save :create_account
+  after_create :create_account
   
   def create_account
     Account.make_account(self)
@@ -67,5 +57,9 @@ class User < ActiveRecord::Base
   def get_balance_due(date)
     self.get_group.due_amount - monthly_decision_book(date)["due"]
   end
+
+  def role_names
+    roles.collect(&:name)
+  end  
 
 end

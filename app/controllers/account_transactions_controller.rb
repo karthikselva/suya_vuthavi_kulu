@@ -13,7 +13,7 @@ class AccountTransactionsController < ApplicationController
 
   def load_members
   	@group = Group.find(params[:group_id])
-  	@members = @group.users.sort{|a,b| a.full_name <=> b.full_name }
+  	@members = @group.users.sort{|a,b| a.position.to_i <=> b.position.to_i }
   	render :layout => false
   end
 
@@ -22,27 +22,34 @@ class AccountTransactionsController < ApplicationController
   # end
 
   def save_member_transaction
-   credit_trans_arr = [] 
-   debit_trans_arr = []
-   for key in params[:account_tran_detail].keys
-     user_account = User.find(params[:member][key][:id]).account 
-     group_account = Group.find(params[:group][:id]).account	
-   	 #inflow
-   	 amount_hash = {:saving => params[:account_tran_detail][key][:saving].to_f, :due => params[:account_tran_detail][key][:due].to_f, :principle_credit => params[:account_tran_detail][key][:principle_credit].to_f, :interest_credit => params[:account_tran_detail][key][:interest_credit].to_f, :other_amount => params[:account_tran_detail][key][:other_amount].to_f}
-     if amount_hash.values.any?{|v| v > 0 }
-	     atd_credit = AccountTranDetail.new
-	     atd_credit.save_tranction(user_account.id, group_account.id, params[:transaction_date].to_date, amount_hash)
-       credit_trans_arr << atd_credit.id
-	   end    
+    credit_trans_arr = [] 
+    debit_trans_arr = []
+    status = Transaction::GuardedBlock.execute do |g|
+      for key in params[:account_tran_detail].keys
+        user_account = User.find(params[:member][key][:id]).account 
+        group_account = Group.find(params[:group][:id]).account	
+     	  #inflow
+     	  amount_hash = {:saving => params[:account_tran_detail][key][:saving].to_f, :due => params[:account_tran_detail][key][:due].to_f, :principle_credit => params[:account_tran_detail][key][:principle_credit].to_f, :interest_credit => params[:account_tran_detail][key][:interest_credit].to_f, :other_amount => params[:account_tran_detail][key][:other_amount].to_f}
+        if amount_hash.values.any?{|v| v > 0 }
+  	      atd_credit = AccountTranDetail.new
+          g.b { atd_credit.save_tranction(user_account.id, group_account.id, params[:transaction_date].to_date, amount_hash) }
+          credit_trans_arr << atd_credit.id
+  	    end    
 
-   	 #outflow
-   	 if params[:account_tran_detail][key][:principle_debit].to_f > 0 
-       atd_debit = AccountTranDetail.new
-   	   atd_debit.save_tranction(group_account.id, user_account.id, params[:transaction_date].to_date, {:principle_debit => params[:account_tran_detail][key][:principle_debit]})
-       debit_trans_arr << atd_debit.id
-   	 end 
-   end
-   redirect_to show_transactions_account_transactions_path(:atd_credit_id => credit_trans_arr.join(","), :atd_debit_id => debit_trans_arr.join(","))
+     	  #outflow
+     	  if params[:account_tran_detail][key][:principle_debit].to_f > 0 
+          atd_debit = AccountTranDetail.new
+          g.b { atd_debit.save_tranction(group_account.id, user_account.id, params[:transaction_date].to_date, {:principle_debit => params[:account_tran_detail][key][:principle_debit]}) }
+          debit_trans_arr << atd_debit.id
+     	  end 
+      end
+    end
+    if status
+      redirect_to show_transactions_account_transactions_path(:atd_credit_id => credit_trans_arr.join(","), :atd_debit_id => debit_trans_arr.join(","))
+    else
+      flash[:notice] = "Transaction was not saved"
+      redirect_to member_transaction_account_transactions_path
+    end  
   end	
 
   def group_transaction
@@ -92,9 +99,10 @@ class AccountTransactionsController < ApplicationController
     end    
 
     #outflow
-    if params[:account_tran_detail][:principle_debit].to_f > 0 
+    amount_hash = {:principle_debit => params[:account_tran_detail][:principle_debit].to_f}
+    if amount_hash.values.any?{|v| v > 0 } #params[:account_tran_detail][:principle_debit].to_f > 0 
       @atd_debit = AccountTranDetail.new
-      @atd_debit.save_tranction(group_account.id, bank_account.id, params[:transaction_date].to_date, {:principle_debit => params[:account_tran_detail][:principle_debit]})
+      @atd_debit.save_tranction(group_account.id, bank_account.id, params[:transaction_date].to_date, amount_hash)
     end 
     redirect_to show_transactions_account_transactions_path(:atd_credit_id => @atd_credit ? @atd_credit.id : "", :atd_debit_id => @atd_debit ? @atd_debit.id : "")
   end
@@ -112,6 +120,31 @@ class AccountTransactionsController < ApplicationController
         render :json => result.to_json,:layout => false
       } 
     end
+  end
+
+  def expenses
+    @groups = Group.order("name")
+  end 
+
+  def save_expenses
+    group = Group.find(params[:selected][:group_id])
+    amount_hash = {:other_amount => params[:account_tran_detail][:other_amount].to_f}
+    if amount_hash.values.any?{|v| v > 0 }
+      @atd_credit = AccountTranDetail.new(:comments => params[:account_tran_detail][:comments])
+      @atd_credit.save_tranction(group.account.id, EXPENSES_ACC_ID, params[:account_tran_detail][:transaction_date].to_date, amount_hash)
+    end
+    redirect_to show_transactions_account_transactions_path(:atd_credit_id => @atd_credit ? @atd_credit.id : "", :atd_debit_id => "")
+  end 
+
+  def update_balance
+    @groups = Group.order("name")
   end  
+
+  def save_update_balance
+    group = params[:select][:group].blank? ? nil : Group.find(params[:select][:group])
+    Group.update_final_balance(params[:balance][:update_date].to_date, group)
+    Group.update_bank_final_balance(params[:balance][:update_date].to_date, group)
+    redirect_to root_url
+  end 
     
 end	

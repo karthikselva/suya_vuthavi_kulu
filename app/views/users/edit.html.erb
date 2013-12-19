@@ -1,6 +1,7 @@
-<h2>Edit User</h2>
+<table><tr><td><h2 align="center">Edit User</h2></td></tr></table>
+<br/>
 <%= form_for(@user, :url => user_path(@user), :method => "put") do |f| %>
   <%= render :partial => "form" %>
   <br/>
-  <%= submit_tag "Save" %>
+  <table><tr><td><%= submit_tag "Save" %></td></tr></table>
 <% end %>

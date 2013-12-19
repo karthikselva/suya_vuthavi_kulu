@@ -4,6 +4,7 @@
 
 <table id="table_style">
     <tr>
+        <th>S:No</th>
       	<th>Name</th>
       	<th>Saving</th>
       	<th>Due</th>
@@ -21,14 +22,15 @@
         <% bal_due = member.get_balance_due(params[:date].to_date) %>
         <% outs_bal = member.account.outstanding_balance %>
         <% bal_interest = member.get_balance_interest(params[:date].to_date) %>
-
+        
+        <td><%=member.position.to_s %></td>
         <td><%=member.full_name %><%= hidden_field :member, :id, :index => i, :value => member.id %></td>
-        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :title => "Bal :" + bal_saving.to_s %></td>
-        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :title => "Bal :" + bal_due.to_s%></td>
-        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'principle_credit')", :title => "Bal :" + outs_bal.to_s%></td>
-        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'interest_credit')", :title => "Bal :" + bal_interest.to_s%></td>
-        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
-        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3",:onchange => "find_total(#{i})"%></td>
+        <td><%= text_field :account_tran_detail,:saving, :index => i, :size => "3",:onchange => "check_values(#{i}, 'saving')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_saving.to_s %></td>
+        <td><%= text_field :account_tran_detail,:due, :index => i,:size => "3",:onchange => "check_values(#{i}, 'due')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_due.to_s%></td>
+        <td><%= text_field :account_tran_detail,:principle_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'principle_credit')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + outs_bal.to_s%></td>
+        <td><%= text_field :account_tran_detail,:interest_credit, :index => i,:size=>"3",:onchange => "check_values(#{i}, 'interest_credit')", :onkeypress => "return float_only(event,2)", :title => "Bal :" + bal_interest.to_s%></td>
+        <td><%= text_field :account_tran_detail,:other_amount, :index => i,:size=>"3",:onchange => "find_total(#{i})", :onkeypress => "return float_only(event,2)"%></td>
+        <td><%= text_field :account_tran_detail,:principle_debit, :index => i,:size=>"3",:onchange => "find_total(#{i})", :onkeypress => "return float_only(event,2)"%></td>
         <td><%= text_field :reference,:total, :index => i,:size=>"3", :value => 0, :readonly => true%></td>
             <%= hidden_field :hidden, :saving, :index => i, :value => bal_saving %>
             <%= hidden_field :hidden, :due, :index => i, :value => bal_due %> 
@@ -37,8 +39,26 @@
     </tr>
     <% end %>
     <tr>
-        <td colspan='7' style="text-align:right"><b>Grand Total</b></td>
-        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0 %></td>
+        <td></td>
+        <td><b>Grand Total</b></td>
+        <td><%= text_field :reference,:saving_tot,:size=>"3", :value => 0, :title => "Saving Total", :readonly => true %></td>
+        <td><%= text_field :reference,:due_tot,:size=>"3", :value => 0, :title => "Due Total", :readonly => true %></td>
+        <td><%= text_field :reference,:principle_credit_tot,:size=>"3", :value => 0, :title => "Principle Credit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:interest_credit_tot,:size=>"3", :value => 0, :title => "Int Credit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:others_tot,:size=>"3", :value => 0, :title => "Others Total", :readonly => true %></td>
+        <td><%= text_field :reference,:principal_debit_tot,:size=>"3", :value => 0, :title => "Principal Debit Total", :readonly => true %></td>
+        <td><%= text_field :reference,:grand_total,:size=>"3", :value => 0, :title => "Grand Total", :readonly => true %></td>
+    </tr>
+    <tr>
+        <th>S:No</th>
+        <th>Name</th>
+        <th>Saving</th>
+        <th>Due</th>
+        <th>Principal Credit</th>
+        <th>Interest</th>
+        <th>Others</th>
+        <th>Principal Debit</th>
+        <th>Total</th>
     </tr>
 </table>
 <br/>
@@ -72,14 +92,38 @@
     grand_total()
   }
 
+  function find_NaN_value(ele_value)
+  {
+    value = parseFloat(ele_value)
+    return ( isNaN(value) ? 0 : value)
+  }
+
   var COUNT = '<%= @members.length %>'
   function grand_total()
   {
     grnd_total = 0
+    saving_tot = 0
+    due_tot = 0
+    principle_credit_tot = 0 
+    interest_credit_tot = 0 
+    others_tot = 0
+    principal_debit_tot = 0
     for(i=1;i<=parseInt(COUNT);i++)
     {
-      grnd_total = grnd_total + parseFloat($("#reference_" + i + "_total").val()) 
+      grnd_total = grnd_total + find_NaN_value($("#reference_" + i + "_total").val()) 
+      saving_tot = saving_tot + find_NaN_value($("#account_tran_detail_" + i + "_saving").val()) 
+      due_tot = due_tot + find_NaN_value($("#account_tran_detail_" + i + "_due").val()) 
+      principle_credit_tot = principle_credit_tot + find_NaN_value($("#account_tran_detail_" + i + "_principle_credit").val()) 
+      interest_credit_tot = interest_credit_tot + find_NaN_value($("#account_tran_detail_" + i + "_interest_credit").val()) 
+      others_tot = others_tot + find_NaN_value($("#account_tran_detail_" + i + "_other_amount").val()) 
+      principal_debit_tot = principal_debit_tot + find_NaN_value($("#account_tran_detail_" + i + "_principle_debit").val()) 
     }
     $("#reference_grand_total").val(grnd_total) 
+    $("#reference_saving_tot").val(saving_tot) 
+    $("#reference_due_tot").val(due_tot) 
+    $("#reference_principle_credit_tot").val(principle_credit_tot) 
+    $("#reference_interest_credit_tot").val(interest_credit_tot) 
+    $("#reference_others_tot").val(others_tot) 
+    $("#reference_principal_debit_tot").val(principal_debit_tot) 
   }
 </script>
